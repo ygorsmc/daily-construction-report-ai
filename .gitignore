@@ -1,0 +1,38 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Modelos (grandes demais para git, baixados via README)
+models/*.onnx
+models/*.bin
+
+# Outputs gerados
+data/output/*.wav
+data/output/*.json
+data/output/*.txt
+data/output/*.csv
+
+# n8n
+.n8n/
+
+# Fontes de documentação (md/pptx/docx/imagens usados para gerar documentacao.html;
+# não fazem parte da topologia enviada, só o build_docs_html.py os lê localmente)
+docs_src/
+
+# Scripts auxiliares não usados pelo pipeline (fora da topologia do projeto)
+scripts/build_*.py
+scripts/get_telegram_id.py
+
+# Ferramentas de agente / IDE (fora da topologia do projeto)
+.agent/
+.qodo/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,452 @@
+{
+  "name": "Relatório Diário de Obra",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 6,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "id": "903a77b8-1237-4c5d-8a77-41dc4b78a05c",
+      "name": "Trigger Diário (06h30)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fonte de Verdade Única: Lê todas as configurações do .env\nconst fs = require('fs');\nconst pathEnv = './.env';\n\nlet weather_api_key = '';\nlet ollama_model = '';\nlet ollama_url = '';\nlet cidade_obra = '';\nlet smtp_host = '';\nlet smtp_port = '587';\nlet smtp_user = '';\nlet smtp_password = '';\nlet smtp_from_name = 'Assistente de Obra IA';\n\nconst project_path = fs.realpathSync('.');\nconst ts_inicio = Date.now();\n\ntry {\n  if (fs.existsSync(pathEnv)) {\n    const envRaw = fs.readFileSync(pathEnv, 'utf8');\n    envRaw.split('\\n').forEach(line => {\n      const [key, ...valueParts] = line.split('=');\n      if (key && valueParts.length > 0) {\n        const k = key.trim();\n        const v = valueParts.join('=').trim().replace(/^[\\\"']|[\\\"']$/g, '');\n        if (k === 'OLLAMA_MODEL') ollama_model = v;\n        if (k === 'OLLAMA_URL') ollama_url = v;\n        if (k === 'CIDADE_OBRA') cidade_obra = v;\n        if (k === 'OPENWEATHER_API_KEY') weather_api_key = v;\n        if (k === 'SMTP_HOST') smtp_host = v;\n        if (k === 'SMTP_PORT') smtp_port = v;\n        if (k === 'SMTP_USER') smtp_user = v;\n        if (k === 'SMTP_PASSWORD') smtp_password = v;\n        if (k === 'SMTP_FROM_NAME') smtp_from_name = v;\n      }\n    });\n  }\n} catch (e) { console.error('Erro ao ler .env', e); }\n\nreturn {\n  project_path,\n  cidade: cidade_obra,\n  weather_api_key,\n  ollama_model,\n  ollama_url,\n  smtp_host,\n  smtp_port,\n  smtp_user,\n  smtp_password,\n  smtp_from_name,\n  ts_inicio\n};"
+      },
+      "id": "load_keys",
+      "name": "Configurações Iniciais",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://nominatim.openstreetmap.org/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.cidade || 'São Paulo' }}"
+            },
+            {
+              "name": "format",
+              "value": "json"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "relatorio-obra/1.0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "34e18182-5013-4932-b85b-eb545cca61eb",
+      "name": "Nominatim - Geocodificação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/forecast",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "lat",
+              "value": "={{ $json.lat }}"
+            },
+            {
+              "name": "lon",
+              "value": "={{ $json.lon }}"
+            },
+            {
+              "name": "units",
+              "value": "metric"
+            },
+            {
+              "name": "lang",
+              "value": "pt_br"
+            },
+            {
+              "name": "appid",
+              "value": "={{ $('Configurações Iniciais').first().json.weather_api_key }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dd37f344-748f-4e2d-942e-ed9361a582b9",
+      "name": "OpenWeather - Previsão",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lê o diário de obras, filtra o último dia com registro (dia anterior) e monta o prompt diário\n\nconst weatherData = $input.first().json;\nconst list = weatherData.list || [];\nconst config = $('Configurações Iniciais').first().json;\n\nconst dailyForecasts = {};\nlist.forEach(item => {\n  const date = item.dt_txt.split(' ')[0];\n  if (!dailyForecasts[date]) {\n    dailyForecasts[date] = { temp_max: -999, precip: 0, desc: '' };\n  }\n  if (item.main.temp_max > dailyForecasts[date].temp_max) {\n    dailyForecasts[date].temp_max = item.main.temp_max;\n  }\n  if (item.rain && item.rain['3h']) {\n    dailyForecasts[date].precip += item.rain['3h'];\n  }\n  if (item.dt_txt.includes('12:00:00')) {\n    dailyForecasts[date].desc = item.weather[0].description;\n  }\n});\n\nconst previsaoFormatada = Object.keys(dailyForecasts).slice(0, 5).map(d => {\n  const day = dailyForecasts[d];\n  const diaSemana = new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', timeZone: 'America/Sao_Paulo' });\n  const status = day.precip >= 5 || day.desc.toLowerCase().includes('chuva') ? 'CHUVA PREVISTA' : 'DIA SECO';\n  return `  ${d} (${diaSemana}): ${day.desc ? '('+day.desc+') ' : ''}${day.precip.toFixed(1)}mm de chuva, máx ${day.temp_max.toFixed(1)}°C — ${status}`;\n}).join('\\n');\n\nconst fs = require('fs');\nconst diarioRaw = fs.readFileSync(\n  `${config.project_path}/data/input/registros_exemplo.json`,\n  'utf8'\n);\nconst diario = JSON.parse(diarioRaw);\nconst obra     = diario.metadata.obra;\nconst cidade   = diario.metadata.cidade;\nconst todosCronologicos = diario.registros.sort((a, b) => new Date(a.data) - new Date(b.data));\n\nconst hoje = new Date();\nhoje.setHours(0, 0, 0, 0);\n\n// Seleciona o último dia com registro anterior a hoje (o \"dia anterior\" efetivo,\n// pulando fins de semana/feriados sem apontamento)\nconst registrosPassados = todosCronologicos.filter(r => new Date(r.data + 'T12:00:00') < hoje);\nconst dataReferencia = registrosPassados.length > 0\n  ? registrosPassados[registrosPassados.length - 1].data\n  : null;\n\nconst registrosDia = dataReferencia\n  ? todosCronologicos.filter(r => r.data === dataReferencia)\n  : [];\n\nconst dataRefStr = dataReferencia\n  ? new Date(dataReferencia + 'T12:00:00').toLocaleDateString('pt-BR')\n  : '—';\n\nconst registrosFormatados = registrosDia.length > 0\n  ? registrosDia.map(r => {\n      const paralisacao = r.paralisada ? `PARALISADA — ${r.motivo_paralisacao}` : 'sem paralisação';\n      return `  ${r.data} (${r.dia_semana}): ${r.etapa}, ${r.pct_etapa}% concluído, ${r.horas_trabalhadas}h trabalhadas, ${r.num_operarios} operários. Ocorrência: ${r.ocorrencia}. Status: ${paralisacao}.`;\n    }).join('\\n')\n  : '  Nenhum registro encontrado para o dia anterior.';\n\nconst prompt = `Você é o assistente de planejamento diário do Engenheiro Ygor, responsável pela obra \"${obra}\", em ${cidade}.\n\nSua função é gerar um relatório diário prático, que o engenheiro possa ouvir em áudio ou ler, e que o ajude a planejar o dia de trabalho. O relatório deve ser escrito em texto contínuo e fluente, como se estivesse falando diretamente com o engenheiro. \n\nIMPORTANTE: Escreva o relatório em texto corrido, sem usar títulos em negrito, sem marcadores como asteriscos (*), sem hífens decorativos (-), sem símbolos ou abreviações. O texto deve ser natural para ser ouvido em voz alta (TTS), evitando qualquer caractere que cause ruído na leitura.\n\nOs dados abaixo são as únicas fontes de informação que você deve usar. Não invente, não suponha, não extrapole.\n\nDIÁRIO DE OBRAS — dia anterior (${dataRefStr}):\n${registrosFormatados}\n\nPREVISÃO DO TEMPO — hoje e próximos dias:\n${previsaoFormatada}\n\nO relatório deve conter:\n1. O que aconteceu no dia anterior (atividades, progresso, operários, ocorrências).\n2. Previsão do tempo de hoje e dos próximos dias e impacto na obra.\n3. Sugestão técnica concreta de ação para hoje e os próximos dias.\n\nPortuguês brasileiro. Linguagem técnica, porém natural para locução.`;\n\nreturn [{ json: { prompt, previsaoFormatada, registrosFormatados, obra, cidade, dataInicioStr: dataRefStr, dataFimStr: dataRefStr, dataRefStr } }];\n"
+      },
+      "id": "e39c7904-2d67-4d89-96b1-12a39f361796",
+      "name": "Consolidação de Dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configurações Iniciais').first().json.ollama_url }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $('Configurações Iniciais').first().json.ollama_model }}\",\n  \"prompt\": {{ JSON.stringify($json.prompt) }},\n  \"stream\": false,\n  \"options\": {\n    \"temperature\": 0.7,\n    \"num_predict\": 2048\n  }\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "73b8dcf6-ce69-46ac-b0f7-638b342ba336",
+      "name": "Ollama - Gerar Relatório",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -200
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.first().json.response.trim();\nconst inputData = $input.first().json;\nconst hoje = new Date().toISOString().split('T')[0];\n\nreturn [{\n  json: {\n    data_geracao: hoje,\n    obra: inputData.obra || '',\n    cidade: inputData.cidade || '',\n    semana_referencia: `${inputData.dataInicioStr || ''} a ${inputData.dataFimStr || ''}`,\n    relatorio_completo: output\n  }\n}];\n"
+      },
+      "id": "f8bd2aa5-4717-4ffa-a291-5a9031518572",
+      "name": "Parsear Output do LLM",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst projectPath = $('Configurações Iniciais').first().json.project_path;\nconst tempPath = `${projectPath}/data/output/temp_tts.txt`;\nconst outputPath = `data/output/relatorio_${$json.data_geracao}.wav`;\n\nconst texto = $json.relatorio_completo;\nfs.writeFileSync(tempPath, texto);\n\nreturn [{\n  json: {\n    tts_temp_path: tempPath,\n    output_path: outputPath,\n    data_geracao: $json.data_geracao,\n    relatorio_completo: $json.relatorio_completo\n  }\n}];"
+      },
+      "id": "b0cf03f0-aa5b-4183-b08f-22d0f7ad9e55",
+      "name": "Preparar Texto para TTS",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=.venv/bin/python3 \"{{ $('Configurações Iniciais').first().json.project_path }}/scripts/generate_audio.py\" --text-file \"{{ $json.tts_temp_path }}\" --output \"{{ $('Configurações Iniciais').first().json.project_path }}/{{ $json.output_path }}\""
+      },
+      "id": "e85a87b1-b22f-45c6-947c-adfef3bea026",
+      "name": "Kokoro TTS - Gerar Áudio",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -200
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst projectPath = $('Configurações Iniciais').first().json.project_path;\nconst prevData = $('Preparar Texto para TTS').first().json;\nconst audioPath = $input.first().json.stdout?.trim() || 'N/D';\n\nconst hoje = new Date();\nconst semanaRef = hoje.toLocaleDateString('pt-BR'); // dia de referência (relatório diário)\n\nconst captionText = `🎧 Relatório Diário de Obra\\n\\n${prevData.relatorio_completo}`;\nconst captionFilePath = `${projectPath}/data/output/temp_caption.txt`;\nfs.writeFileSync(captionFilePath, captionText);\n\nreturn [{\n  json: {\n    data_geracao: hoje.toLocaleDateString('pt-BR'),\n    semana_referencia: semanaRef,\n    relatorio_completo: prevData.relatorio_completo,\n    caminho_audio: audioPath,\n    caption_file: captionFilePath,\n    tts_temp_path: prevData.tts_temp_path,\n    status: 'concluido'\n  }\n}];"
+      },
+      "id": "b3fc0d3f-e032-48c5-9d8e-1ab7e86baa43",
+      "name": "Preparar Saída Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        -200
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=AUDIO_FILE=\"{{ $json.caminho_audio }}\"\nBOT_TOKEN=\"${TELEGRAM_BOT_TOKEN}\"\nCHAT_ID=\"${TELEGRAM_CHAT_ID}\"\n\ncurl -s -X POST \"https://api.telegram.org/bot${BOT_TOKEN}/sendAudio\" \\\n  -F chat_id=\"${CHAT_ID}\" \\\n  -F audio=@\"${AUDIO_FILE}\" \\\n  -F title=\"Relatório Diário de Obra\" \\\n  -F performer=\"Assistente IA\" \\\n  -F \"caption=🎧 Relatório Diário de Obra (Áudio)\"\n\nFULL_TEXT=$(head -c 4096 \"{{ $json.caption_file }}\")\ncurl -s -X POST \"https://api.telegram.org/bot${BOT_TOKEN}/sendMessage\" \\\n  -F chat_id=\"${CHAT_ID}\" \\\n  -F \"text=${FULL_TEXT}\""
+      },
+      "id": "44eb8429-5347-43e7-95e0-8bd86eff104b",
+      "name": "Telegram - Enviar Áudio (curl)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        -200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "command": "=CSV_FILE=\"{{ $('Configurações Iniciais').first().json.project_path }}/data/output/historico_relatorios.csv\"\nif [ ! -f \"$CSV_FILE\" ]; then\n  echo \"Data Geracao;Semana Referencia;Status;Caminho Audio;Email Status\" > \"$CSV_FILE\"\nfi\necho \"{{ $json.data_geracao }};{{ $json.semana_referencia }};{{ $json.status }};{{ $json.caminho_audio }};pendente\" >> \"$CSV_FILE\""
+      },
+      "id": "94b177b4-07f1-4c8d-9ee5-bc423a7579f8",
+      "name": "Gravar Histórico em CSV",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=\"{{ $('Configurações Iniciais').first().json.project_path }}/.venv/bin/python3\" \"{{ $('Configurações Iniciais').first().json.project_path }}/scripts/send_email.py\" --body-file \"{{ $json.tts_temp_path }}\" --recipients \"{{ $('Configurações Iniciais').first().json.project_path }}/data/email_recipients.csv\" --subject \"Relatório Diário de Obra — {{ $json.data_geracao }}\""
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-email000001",
+      "name": "Gmail - Enviar Relatório",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        -400
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Logger de métricas de execução do pipeline\nconst fs = require('fs');\nconst projectPath = $('Configurações Iniciais').first().json.project_path;\nconst tsInicio = $('Configurações Iniciais').first().json.ts_inicio;\nconst tsFim = Date.now();\n\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  duracao_total_s: ((tsFim - tsInicio) / 1000).toFixed(2),\n  canais: {\n    telegram: { executado: true },\n    email: { executado: true },\n    csv: { executado: true }\n  },\n  status: 'concluido'\n};\n\nconst logPath = `${projectPath}/data/output/execution_log.json`;\nlet logs = [];\ntry {\n  if (fs.existsSync(logPath)) {\n    logs = JSON.parse(fs.readFileSync(logPath, 'utf8'));\n  }\n} catch(e) {}\nlogs.push(logEntry);\nfs.writeFileSync(logPath, JSON.stringify(logs, null, 2));\n\nreturn [{ json: logEntry }];"
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-logger00001",
+      "name": "Logger - Métricas de Execução",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        -200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-e5f6-7890-abcd-errtrig0001",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Error Handler Global — loga e notifica via Telegram\nconst fs = require('fs');\nconst error = $input.first().json;\n\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  error_message: error.message || JSON.stringify(error),\n  node: error.node?.name || 'desconhecido',\n  workflow: error.workflow?.name || 'Relatório Diário de Obra'\n};\n\n// Grava log de erros\ntry {\n  const logPath = './data/output/error_log.json';\n  let logs = [];\n  if (fs.existsSync(logPath)) {\n    logs = JSON.parse(fs.readFileSync(logPath, 'utf8'));\n  }\n  logs.push(logEntry);\n  fs.writeFileSync(logPath, JSON.stringify(logs, null, 2));\n} catch(e) { console.error('Falha ao gravar error_log', e); }\n\nreturn [{ json: logEntry }];"
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-errhand0001",
+      "name": "Error Handler Global",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=BOT_TOKEN=\"${TELEGRAM_BOT_TOKEN}\"\nCHAT_ID=\"${TELEGRAM_CHAT_ID}\"\nERROR_MSG=\"⚠️ ERRO NO PIPELINE\\n\\nNó: {{ $json.node }}\\nErro: {{ $json.error_message }}\\nHora: {{ $json.timestamp }}\"\n\ncurl -s -X POST \"https://api.telegram.org/bot${BOT_TOKEN}/sendMessage\" \\\n  -F chat_id=\"${CHAT_ID}\" \\\n  -F \"text=${ERROR_MSG}\""
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-errnotf0001",
+      "name": "Notificar Erro via Telegram",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        200,
+        200
+      ],
+      "continueOnFail": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Configurações Iniciais": {
+      "main": [
+        [
+          {
+            "node": "Nominatim - Geocodificação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nominatim - Geocodificação": {
+      "main": [
+        [
+          {
+            "node": "OpenWeather - Previsão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeather - Previsão": {
+      "main": [
+        [
+          {
+            "node": "Consolidação de Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidação de Dados": {
+      "main": [
+        [
+          {
+            "node": "Ollama - Gerar Relatório",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama - Gerar Relatório": {
+      "main": [
+        [
+          {
+            "node": "Parsear Output do LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear Output do LLM": {
+      "main": [
+        [
+          {
+            "node": "Preparar Texto para TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Texto para TTS": {
+      "main": [
+        [
+          {
+            "node": "Kokoro TTS - Gerar Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kokoro TTS - Gerar Áudio": {
+      "main": [
+        [
+          {
+            "node": "Preparar Saída Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Saída Final": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Enviar Áudio (curl)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail - Enviar Relatório",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gravar Histórico em CSV",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Logger - Métricas de Execução",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Error Handler Global",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler Global": {
+      "main": [
+        [
+          {
+            "node": "Notificar Erro via Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Diário (06h30)": {
+      "main": [
+        [
+          {
+            "node": "Configurações Iniciais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  }
+}

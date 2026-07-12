@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "obra": "Edifício Residencial Vila Madalena — Bloco A",
+    "cidade": "São Paulo",
+    "tipo": "Edifício residencial 4 pavimentos",
+    "engenheiro_responsavel": "Ygor",
+    "descricao": "Diário de obras completo para validação do pipeline. 15 registros cobrindo 3 semanas de obra em fase de estrutura e acabamento.",
+    "versao": "2.0"
+  },
+  "registros": [
+    {
+      "data": "2026-04-06",
+      "dia_semana": "Segunda-feira",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 35,
+      "horas_trabalhadas": 9,
+      "num_operarios": 14,
+      "ocorrencia": "Início da concretagem da laje do 2º pavimento. Bomba de concreto acionada às 07h.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-07",
+      "dia_semana": "Terça-feira",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 50,
+      "horas_trabalhadas": 9,
+      "num_operarios": 14,
+      "ocorrencia": "Progresso dentro do esperado. Cura do concreto iniciada na área já concretada.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-08",
+      "dia_semana": "Quarta-feira",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 55,
+      "horas_trabalhadas": 5,
+      "num_operarios": 14,
+      "ocorrencia": "Chuva forte a partir das 12h30 — equipe dispensada após o almoço. Serviços internos continuaram com 4 operários.",
+      "paralisada": true,
+      "motivo_paralisacao": "Chuva forte (11.2mm) — risco de diluição da pasta de cimento e choque em ferramentas elétricas"
+    },
+    {
+      "data": "2026-04-09",
+      "dia_semana": "Quinta-feira",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 70,
+      "horas_trabalhadas": 9,
+      "num_operarios": 16,
+      "ocorrencia": "Equipe reforçada para recuperar atraso do dia anterior. Ritmo acelerado aproveitando tempo seco.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-10",
+      "dia_semana": "Sexta-feira",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 85,
+      "horas_trabalhadas": 9,
+      "num_operarios": 14,
+      "ocorrencia": "Concretagem avançou bem. Falta apenas a área da caixa d'água.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-11",
+      "dia_semana": "Sábado",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 85,
+      "horas_trabalhadas": 0,
+      "num_operarios": 0,
+      "ocorrencia": "Obra fechada — final de semana.",
+      "paralisada": true,
+      "motivo_paralisacao": "Folga semanal da equipe"
+    },
+    {
+      "data": "2026-04-12",
+      "dia_semana": "Domingo",
+      "etapa": "Concretagem 2º pavimento — laje",
+      "pct_etapa": 85,
+      "horas_trabalhadas": 0,
+      "num_operarios": 0,
+      "ocorrencia": "Obra fechada — final de semana.",
+      "paralisada": true,
+      "motivo_paralisacao": "Folga semanal da equipe"
+    },
+    {
+      "data": "2026-04-13",
+      "dia_semana": "Segunda-feira",
+      "etapa": "Concretagem 2º pavimento — área da caixa d'água",
+      "pct_etapa": 92,
+      "horas_trabalhadas": 9,
+      "num_operarios": 12,
+      "ocorrencia": "Retomada da concretagem na área restante. Sem intercorrências.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-14",
+      "dia_semana": "Terça-feira",
+      "etapa": "Concretagem 2º pavimento — finalização e escoramento",
+      "pct_etapa": 100,
+      "horas_trabalhadas": 10,
+      "num_operarios": 15,
+      "ocorrencia": "Concretagem do 2º pavimento concluída. Escoramento reforçado. Início do cálculo de carga para o 3º pavimento.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-15",
+      "dia_semana": "Quarta-feira",
+      "etapa": "Alvenaria 3º pavimento — marcação e início",
+      "pct_etapa": 8,
+      "horas_trabalhadas": 9,
+      "num_operarios": 13,
+      "ocorrencia": "Marcação das paredes do 3º pavimento. Início do assentamento de blocos na área leste.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-16",
+      "dia_semana": "Quinta-feira",
+      "etapa": "Alvenaria 3º pavimento",
+      "pct_etapa": 18,
+      "horas_trabalhadas": 4,
+      "num_operarios": 13,
+      "ocorrencia": "Atraso na entrega de blocos cerâmicos pelo fornecedor. Equipe remanejada para serviços de limpeza e preparação de área.",
+      "paralisada": true,
+      "motivo_paralisacao": "Falta de material — blocos cerâmicos 14x19x29cm em falta no depósito do fornecedor"
+    },
+    {
+      "data": "2026-04-17",
+      "dia_semana": "Sexta-feira",
+      "etapa": "Alvenaria 3º pavimento",
+      "pct_etapa": 30,
+      "horas_trabalhadas": 10,
+      "num_operarios": 15,
+      "ocorrencia": "Material chegou às 09h. Produção intensa durante o dia para compensar atraso. Hora extra autorizada.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    },
+    {
+      "data": "2026-04-18",
+      "dia_semana": "Sábado",
+      "etapa": "Alvenaria 3º pavimento",
+      "pct_etapa": 30,
+      "horas_trabalhadas": 0,
+      "num_operarios": 0,
+      "ocorrencia": "Obra fechada — final de semana.",
+      "paralisada": true,
+      "motivo_paralisacao": "Folga semanal da equipe"
+    },
+    {
+      "data": "2026-04-19",
+      "dia_semana": "Domingo",
+      "etapa": "Alvenaria 3º pavimento",
+      "pct_etapa": 30,
+      "horas_trabalhadas": 0,
+      "num_operarios": 0,
+      "ocorrencia": "Obra fechada — final de semana.",
+      "paralisada": true,
+      "motivo_paralisacao": "Folga semanal da equipe"
+    },
+    {
+      "data": "2026-04-20",
+      "dia_semana": "Segunda-feira",
+      "etapa": "Alvenaria 3º pavimento",
+      "pct_etapa": 42,
+      "horas_trabalhadas": 9,
+      "num_operarios": 13,
+      "ocorrencia": "Retomada normal. Bom rendimento no bloco sul.",
+      "paralisada": false,
+      "motivo_paralisacao": ""
+    }
+  ]
+}
