@@ -283,11 +283,10 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <a href="#sucesso-observado-vs-confiabilidade-mode" class="dropdown-link" data-page="metricas">Sucesso observado vs. confiabilidade modelada</a>
 <a href="#modelo-de-confiabilidade-por-execu-o" class="dropdown-link" data-page="metricas">Modelo de confiabilidade por execução</a>
 <a href="#8-2-1-o-risco-dominante-disponibilidade-" class="dropdown-link" data-page="metricas">8.2.1. O risco dominante: disponibilidade do host pessoal</a>
-<a href="#8-3-an-lise-de-roi-retorno-sobre-o-inves" class="dropdown-link" data-page="metricas">8.3. Análise de ROI (Retorno sobre o Investimento)</a>
-<a href="#8-3-1-investimento-de-desenvolvimento-cu" class="dropdown-link" data-page="metricas">8.3.1. Investimento de desenvolvimento (custo de construção)</a>
-<a href="#8-3-2-valor-gerado-para-o-cliente-constr" class="dropdown-link" data-page="metricas">8.3.2. Valor gerado para o cliente (construtora)</a>
-<a href="#8-3-3-modelos-de-precifica-o-e-ponto-de-" class="dropdown-link" data-page="metricas">8.3.3. Modelos de precificação e ponto de equilíbrio</a>
-<a href="#8-3-4-s-ntese-do-roi" class="dropdown-link" data-page="metricas">8.3.4. Síntese do ROI</a>
+<a href="#8-3-valor-gerado-e-viabilidade-econ-mica" class="dropdown-link" data-page="metricas">8.3. Valor Gerado e Viabilidade Econômica</a>
+<a href="#8-3-1-valor-gerado-para-o-cliente-constr" class="dropdown-link" data-page="metricas">8.3.1. Valor gerado para o cliente (construtora)</a>
+<a href="#8-3-2-retorno-para-o-cliente-payback-e-r" class="dropdown-link" data-page="metricas">8.3.2. Retorno para o cliente (payback e ROI)</a>
+<a href="#8-3-3-viabilidade-econ-mica-da-solu-o" class="dropdown-link" data-page="metricas">8.3.3. Viabilidade econômica da solução</a>
 <a href="#8-4-propostas-de-melhoria-roadmap-priori" class="dropdown-link" data-page="metricas">8.4. Propostas de Melhoria (Roadmap Priorizado)</a>
 <a href="#prioridade-1-confiabilidade-do-em-host-e" class="dropdown-link" data-page="metricas">Prioridade 1 — Confiabilidade do host (maior risco, baixo esforço)</a>
 <a href="#prioridade-2-lat-ncia-alto-impacto-t-cni" class="dropdown-link" data-page="metricas">Prioridade 2 — Latência (alto impacto técnico)</a>
@@ -307,7 +306,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
         <button class="tab-btn" data-page="etica">Ética e LGPD</button>
         <div class="tab-dropdown">
 <a href="#10-1-mapeamento-de-dados-pessoais-no-pip" class="dropdown-link" data-page="etica">10.1. Mapeamento de Dados Pessoais no Pipeline (Data Mapping)</a>
-<a href="#risco-latente-em-produ-o-dado-sens-vel-" class="dropdown-link" data-page="etica">Risco latente em produção (dado sensível)</a>
+<a href="#-risco-latente-em-produ-o-dado-sens-vel-" class="dropdown-link" data-page="etica">Risco latente em produção (dado sensível)</a>
 <a href="#10-2-aplica-o-da-lgpd-ao-projeto" class="dropdown-link" data-page="etica">10.2. Aplicação da LGPD ao Projeto</a>
 <a href="#10-2-1-pap-is-e-bases-legais" class="dropdown-link" data-page="etica">10.2.1. Papéis e bases legais</a>
 <a href="#10-2-2-princ-pios-do-art-6-autoavalia-o" class="dropdown-link" data-page="etica">10.2.2. Princípios do art. 6º — autoavaliação</a>
@@ -1305,7 +1304,7 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <div class="content-wrapper"><h1 id="8-m-tricas-de-performance-confiabilidade">8. Métricas de Performance, Confiabilidade e ROI</h1>
 
 <blockquote>
-<p>Esta seção analisa quantitativamente o desempenho do pipeline em produção (latência real ponta a ponta), modela a <strong>taxa de sucesso</strong> considerando os riscos de uma operação <em>on-premise</em>, e calcula o <strong>Retorno sobre o Investimento (ROI)</strong> sob a ótica do desenvolvedor (custo de construção e preço de venda) e do cliente (valor gerado). Ao final, propõe um roadmap de melhorias priorizadas.</p>
+<p>Esta seção analisa quantitativamente o desempenho do pipeline em produção (latência real ponta a ponta), modela a <strong>taxa de sucesso</strong> considerando os riscos de uma operação <em>on-premise</em>, e quantifica o <strong>valor gerado para o cliente</strong> (tempo de engenharia recuperado, payback e ROI) junto com a viabilidade econômica da solução. Ao final, propõe um roadmap de melhorias priorizadas.</p>
 </blockquote>
 
 <hr>
@@ -1427,38 +1426,13 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <hr>
 
-<h2 id="8-3-an-lise-de-roi-retorno-sobre-o-inves">8.3. Análise de ROI (Retorno sobre o Investimento)</h2>
+<h2 id="8-3-valor-gerado-e-viabilidade-econ-mica">8.3. Valor Gerado e Viabilidade Econômica</h2>
 
 <blockquote>
-<p><strong>Importante:</strong> os valores abaixo são <strong>estimativas paramétricas</strong> com premissas explícitas para o mercado brasileiro. São facilmente ajustáveis — basta alterar a taxa-hora, as horas de esforço ou o preço de venda nas tabelas. O objetivo é demonstrar a <strong>lógica de viabilidade econômica</strong>, não cravar um número exato.</p>
+<p><strong>Importante:</strong> os valores abaixo são <strong>estimativas paramétricas</strong> com premissas explícitas para o mercado brasileiro. São facilmente ajustáveis — basta alterar a taxa-hora, os dias úteis ou o custo de implantação de referência. O objetivo é demonstrar a <strong>lógica de viabilidade econômica</strong>, não cravar um número exato.</p>
 </blockquote>
 
-<h3 id="8-3-1-investimento-de-desenvolvimento-cu">8.3.1. Investimento de desenvolvimento (custo de construção)</h3>
-
-<p>Estimativa de esforço acumulado nas 3 etapas do projeto (pesquisa, desenvolvimento, testes e documentação):</p>
-
-<div class="table-wrap"><table>
-<tr><th>Frente</th><th>Horas estimadas</th><th>Descrição</th></tr>
-<tr><td>Pesquisa & estudo</td><td>35 h</td><td>n8n, Ollama/LLMs locais, Kokoro TTS, APIs (OpenWeather/Nominatim), LGPD</td></tr>
-<tr><td>Desenvolvimento</td><td>70 h</td><td>Workflow n8n (17 nós), microsserviços Python (TTS, e-mail), integrações</td></tr>
-<tr><td>Testes</td><td>20 h</td><td>Execuções E2E, testes de stress, ajustes de prompt e parametrização</td></tr>
-<tr><td>Documentação</td><td>25 h</td><td>8+ documentos técnicos, portal HTML, canvas, relatórios</td></tr>
-<tr><td><strong>Total</strong></td><td><strong>150 h</strong></td><td>—</td></tr>
-</table></div>
-
-<div class="table-wrap"><table>
-<tr><th>Item de custo</th><th>Cálculo</th><th>Valor</th></tr>
-<tr><td>Mão de obra (dev IA/automação)</td><td>150 h × <strong>R$ 90/h</strong></td><td>R$ 13.500</td></tr>
-<tr><td>Amortização de hardware</td><td>Notebook c/ GPU (~R$ 6.000, vida útil 3 anos) — parcela do projeto</td><td>R$ 500</td></tr>
-<tr><td>Software / APIs / licenças</td><td>Stack 100% open-source + <em>free tier</em></td><td>R$ 0</td></tr>
-<tr><td><strong>Investimento total (CAPEX)</strong></td><td></td><td><strong>≈ R$ 14.000</strong></td></tr>
-</table></div>
-
-<blockquote>
-<p><em>Premissa de taxa-hora:</em> R$ 90/h é um valor <strong>conservador</strong> para um desenvolvedor de IA/automação júnior-pleno em regime PJ no Brasil (faixa de mercado ~R$ 80–150/h). A R$ 120/h, o CAPEX subiria para ~R$ 18.500.</p>
-</blockquote>
-
-<h3 id="8-3-2-valor-gerado-para-o-cliente-constr">8.3.2. Valor gerado para o cliente (construtora)</h3>
+<h3 id="8-3-1-valor-gerado-para-o-cliente-constr">8.3.1. Valor gerado para o cliente (construtora)</h3>
 
 <p><strong>Custo-hora do engenheiro residente</strong> (base verificável e conservadora): salário de <strong>8,5 salários mínimos</strong> × <strong>R$ 1.621,00</strong> = <strong>R$ 13.778,50/mês</strong>. Com jornada de 8 h × 21 dias úteis = 168 h/mês, o custo-hora é <strong>≈ R$ 82,00/h</strong> — ou <strong>≈ R$ 55,00 a cada 40 minutos</strong>.</p>
 
@@ -1478,45 +1452,27 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <p><em>(Upside não contabilizado neste piso: os encargos sociais elevariam o valor a ~R$ 23 mil/ano; e o <strong>retrabalho evitado</strong> — concretagem ou pintura externa programadas em dia de chuva — costuma ser o maior valor financeiro na construção. Também não monetizados: melhor comunicação com a diretoria, rastreabilidade e decisões mais bem informadas.)</em></p>
 
-<h3 id="8-3-3-modelos-de-precifica-o-e-ponto-de-">8.3.3. Modelos de precificação e ponto de equilíbrio</h3>
+<h3 id="8-3-2-retorno-para-o-cliente-payback-e-r">8.3.2. Retorno para o cliente (payback e ROI)</h3>
 
-<p>Considerando um <strong>custo de entrega por venda</strong> (onboarding, configuração do <code>.env</code>, treino e 1 mês de suporte) de ~8 h × R$ 90 ≈ <strong>R$ 800</strong>:</p>
-
-<h4 id="modelo-a-licen-a-setup-nico-venda-em-one">Modelo A — Licença/Setup único (venda <em>one-time</em>)</h4>
+<p>Tomando como referência paramétrica um <strong>custo de implantação de R$ 4.500</strong> (licença, configuração de ambiente e treinamento):</p>
 
 <div class="table-wrap"><table>
-<tr><th>Parâmetro</th><th>Valor</th></tr>
-<tr><td>Preço de venda por projeto</td><td><strong>R$ 4.500</strong></td></tr>
-<tr><td>Custo de entrega por venda</td><td>R$ 800</td></tr>
-<tr><td>Margem de contribuição por venda</td><td>R$ 3.700</td></tr>
-<tr><td><strong>Ponto de equilíbrio (break-even)</strong></td><td>R$ 14.000 ÷ R$ 3.700 ≈ <strong>3,8 → 4 projetos vendidos</strong></td></tr>
+<tr><th>Métrica</th><th>Cálculo</th><th>Resultado</th></tr>
+<tr><td>Payback</td><td>R$ 4.500 ÷ ~R$ 1.155/mês</td><td><strong>< 4 meses</strong></td></tr>
+<tr><td>ROI no 1º ano</td><td>(R$ 13.860 − R$ 4.500) ÷ R$ 4.500</td><td><strong>≈ 208%</strong></td></tr>
+<tr><td>Custo recorrente de operação</td><td>IA 100% local, sem APIs pagas</td><td><strong>≈ R$ 0/mês</strong></td></tr>
 </table></div>
 
-<h4 id="modelo-b-saas-assinatura-mensal">Modelo B — SaaS / Assinatura mensal</h4>
+<p>O retorno acima considera <strong>apenas o tempo de engenharia recuperado</strong> — o retrabalho evitado (uma concretagem ou pintura externa cancelada a tempo por causa da previsão de chuva), tipicamente o maior componente de valor na construção, entraria como upside.</p>
 
-<div class="table-wrap"><table>
-<tr><th>Parâmetro</th><th>Valor</th></tr>
-<tr><td>Mensalidade por obra</td><td><strong>R$ 350/mês</strong></td></tr>
-<tr><td>Custo recorrente (suporte/manutenção)</td><td>~R$ 50/mês</td></tr>
-<tr><td>Margem por cliente</td><td>R$ 300/mês</td></tr>
-<tr><td><strong>Recuperação do CAPEX</strong></td><td>R$ 14.000 ÷ R$ 300 ≈ ~47 cliente-meses (ex.: <strong>10 clientes → ~5 meses</strong>), e receita recorrente daí em diante</td></tr>
-</table></div>
+<h3 id="8-3-3-viabilidade-econ-mica-da-solu-o">8.3.3. Viabilidade econômica da solução</h3>
 
-<h4 id="modelo-c-recomendado-h-brido">Modelo C (recomendado) — Híbrido</h4>
+<p>Do lado da construção da solução, o esforço total foi de <strong>~150 h</strong> (pesquisa, desenvolvimento, testes e documentação) sobre uma stack <strong>100% open-source, sem custos de licença ou de API</strong>. Disso decorrem duas propriedades econômicas que sustentam a viabilidade:</p>
 
-<p>Setup reduzido de <strong>R$ 1.500</strong> (cobre o esforço de implantação) <strong>+ assinatura de R$ 250/mês</strong>. Combina caixa imediato (reduz o break-even) com receita recorrente previsível e relação de longo prazo com o cliente.</p>
-
-<h3 id="8-3-4-s-ntese-do-roi">8.3.4. Síntese do ROI</h3>
-
-<div class="table-wrap"><table>
-<tr><th>Perspectiva</th><th>Resultado</th></tr>
-<tr><td><strong>Desenvolvedor</strong></td><td>Paga o desenvolvimento com <strong>~4 vendas</strong> (modelo A). Em 10 vendas: receita R$ 45.000, custo total ~R$ 22.000 → <strong>lucro ~R$ 23.000 (ROI ≈ 164%)</strong>.</td></tr>
-<tr><td><strong>Cliente</strong></td><td>Paga R$ 4.500 (one-time) e recupera ~R$ 13.860/ano só em tempo do engenheiro → <strong>payback < 4 meses, ROI 1º ano ≈ 208%</strong> (sem contar retrabalho evitado).</td></tr>
-</table></div>
-
-<blockquote>
-<p><strong>Mensagem-chave para o <em>storytelling</em>:</strong> O sistema tem <strong>custo marginal de operação próximo de zero</strong> (IA 100% local, sem APIs pagas). Isso significa que <strong>cada venda adicional após o break-even é quase pura margem</strong>, e o cliente obtém um retorno superior a 200% no primeiro ano — uma proposta de valor difícil de recusar para construtoras de pequeno e médio porte.</p>
-</blockquote>
+<ul>
+<li><strong>Custo marginal de operação próximo de zero:</strong> toda a inferência (LLM + TTS) roda localmente; não há cobrança por token, por requisição ou por usuário — gerar o relatório nº 1.000 custa o mesmo que gerar o nº 1.</li>
+<li><strong>Custo de replicação baixo:</strong> implantar o sistema em uma nova obra se resume a configurar variáveis de ambiente e canais de entrega. Num cenário comercial, o investimento de desenvolvimento se dilui rapidamente ao replicar a solução em poucas obras ou clientes, com esforço incremental mínimo por implantação.</li>
+</ul>
 
 <hr>
 
@@ -1542,14 +1498,14 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <ul>
 <li><strong>Cache de geocodificação</strong> (fixar lat/lon no <code>.env</code>/DB) — remove a dependência do Nominatim.</li>
 <li><strong><em>Fallback</em> para nuvem</strong> (Groq/OpenAI) acionado só quando o LLM local falhar — eleva confiabilidade sem custo recorrente em regime normal.</li>
-<li><strong>Multi-tenant + onboarding templatizado</strong> — reduz o custo de entrega por venda (R$ 800 → ~R$ 300), melhorando a margem do modelo SaaS.</li>
+<li><strong>Multi-tenant + onboarding templatizado</strong> — reduz o esforço de implantação por obra/cliente, pré-requisito para escalar a solução comercialmente (modelo SaaS).</li>
 <li><strong>Dashboard de monitoramento</strong> (ingestão dos logs JSON/CSV em Grafana) para acompanhar latência e taxa de sucesso ao longo do tempo.</li>
 </ul>
 
 <hr>
 
 <blockquote>
-<p><strong>Resumo executivo desta seção:</strong> Latência mediana real de <strong>3,5 min</strong> (~11× mais rápida que os ~40 min manuais, dentro do SLA); confiabilidade modelada de <strong>~98% por execução</strong> (limitada pela infraestrutura física, não pelo software, e com falhas de baixo impacto na cadência diária); e um modelo de ROI que se paga em <strong>~4 vendas</strong>, entregando ao cliente <strong>ROI > 200% no primeiro ano</strong> (~R$ 13.860/ano por obra só em tempo). As melhorias prioritárias atacam primeiro a disponibilidade do <em>host</em> (maior risco) e depois a latência da camada de IA (maior consumo de tempo).</p>
+<p><strong>Resumo executivo desta seção:</strong> Latência mediana real de <strong>3,5 min</strong> (~11× mais rápida que os ~40 min manuais, dentro do SLA); confiabilidade modelada de <strong>~98% por execução</strong> (limitada pela infraestrutura física, não pelo software, e com falhas de baixo impacto na cadência diária); e <strong>~R$ 13.860/ano de valor gerado por obra</strong> só em tempo de engenharia recuperado — payback <strong>< 4 meses</strong> e <strong>ROI > 200% no primeiro ano</strong> para o cliente, com custo de operação próximo de zero. As melhorias prioritárias atacam primeiro a disponibilidade do <em>host</em> (maior risco) e depois a latência da camada de IA (maior consumo de tempo).</p>
 </blockquote>
 </div>
 </div>
@@ -1612,7 +1568,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
   <div class="dsh-kpi info"><div class="v">~11×</div><div class="l">Mais rápido que os ~40 min manuais</div></div>
   <div class="dsh-kpi good"><div class="v">~97,9%</div><div class="l">Taxa de sucesso por execução</div></div>
   <div class="dsh-kpi amber"><div class="v">R$ 0</div><div class="l">Custo de IA por relatório (100% local)</div></div>
-  <div class="dsh-kpi info"><div class="v">4 vendas</div><div class="l">Pagam o desenvolvimento (break-even)</div></div>
+  <div class="dsh-kpi info"><div class="v">&lt; 4 meses</div><div class="l">Payback do investimento para o cliente</div></div>
   <div class="dsh-kpi good"><div class="v">&gt;200%</div><div class="l">ROI do cliente no 1º ano</div></div>
 </div>
 
@@ -1671,17 +1627,17 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
     </div>
   </div>
   <div class="dsh-card">
-    <h4>Viabilidade econômica (ROI)</h4>
-    <p class="cap">Custo marginal ~zero (IA local) → cada venda extra é quase pura margem</p>
-    <div class="dsh-roi-row"><span>Investimento de desenvolvimento (CAPEX)</span><b>R$ 14.000</b></div>
-    <div class="dsh-roi-row"><span>Preço de venda (licença única)</span><b>R$ 4.500</b></div>
-    <div class="dsh-roi-row"><span>Ponto de equilíbrio</span><span class="x">~4 vendas</span></div>
+    <h4>Valor gerado (ROI do cliente)</h4>
+    <p class="cap">Custo marginal ~zero (IA local): operar e replicar quase não custa</p>
     <div class="dsh-roi-row"><span>Valor/ano por obra (40min × R$82 × 252d)</span><b>~R$ 13.860</b></div>
-    <div class="dsh-note">Para o cliente: payback &lt; 4 meses e <b>ROI &gt; 200% no 1º ano</b> — sem contar o retrabalho evitado.</div>
+    <div class="dsh-roi-row"><span>Custo de implantação (referência)</span><b>R$ 4.500</b></div>
+    <div class="dsh-roi-row"><span>Payback</span><span class="x">&lt; 4 meses</span></div>
+    <div class="dsh-roi-row"><span>ROI no 1º ano</span><span class="x">≈ 208%</span></div>
+    <div class="dsh-note">Considera só o tempo de engenharia recuperado — o <b>retrabalho evitado</b> (maior valor na construção) entra como upside.</div>
   </div>
 </div>
 
-<div class="dsh-highlight"><b>Em uma frase:</b> uma solução de IA local que entrega relatórios diários de obra <b>~11× mais rápido que o manual</b>, com <b>~98% de confiabilidade</b>, <b>custo de operação zero</b>, que <b>se paga em 4 vendas</b> e gera ao cliente <b>mais de 200% de ROI no primeiro ano</b>.</div>
+<div class="dsh-highlight"><b>Em uma frase:</b> uma solução de IA local que entrega relatórios diários de obra <b>~11× mais rápido que o manual</b>, com <b>~98% de confiabilidade</b>, <b>custo de operação zero</b> e <b>mais de 200% de retorno para o cliente no primeiro ano</b>.</div>
 </div>
 
 <div class="content-wrapper"><h1 id="9-data-storytelling-e-s-ntese-dos-result">9. Data Storytelling e Síntese dos Resultados</h1>
@@ -1700,7 +1656,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <p><strong>A solução e a prova.</strong> O pipeline automatiza esse cruzamento e entrega o relatório em texto e áudio — e os dados mostram que funciona. A latência mediana é de <strong>3,5 minutos</strong> ponta a ponta, cerca de <strong>11× mais rápido</strong> que os ~40 minutos manuais, medida em 9 execuções reais com 88,9% dentro do SLA de 5 minutos. Desse tempo, ~85% é a IA local (LLM + TTS): não é um defeito, e sim o preço de não depender de nuvem paga e manter os dados da obra dentro de casa. A confiabilidade modelada é de <strong>~97,9% por execução</strong> — o equivalente a ~247 de 252 relatórios entregues por ano (dias úteis), sendo que a falha de um dia é naturalmente coberta pelo relatório do dia seguinte. E o custo por relatório é de <strong>R$ 0</strong>, já que toda a IA roda localmente. Em resumo: o que custava 40 minutos do dia passou a custar 3,5 minutos e zero reais.</p>
 
-<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (40 min/dia × R$ 82/h × 252 dias úteis), com payback inferior a 4 meses e ROI superior a 200% no primeiro ano — antes mesmo de contar o retrabalho evitado. Para o desenvolvedor, o projeto <strong>se paga com cerca de 4 vendas</strong> e, por ter custo marginal quase nulo, cada venda adicional é quase pura margem. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução de custo zero, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
+<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (40 min/dia × R$ 82/h × 252 dias úteis), com payback inferior a 4 meses e ROI superior a 200% no primeiro ano — antes mesmo de contar o retrabalho evitado. E, como toda a IA roda localmente, o <strong>custo marginal de operação é próximo de zero</strong>: replicar a solução em uma nova obra praticamente não adiciona custo. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução de custo zero, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
 
 <hr>
 
@@ -1715,14 +1671,14 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <tr><td>Aderência ao SLA</td><td>88,9% (8/9)</td><td>"Consistente, e somos transparentes sobre o outlier"</td><td>Confiabilidade do protótipo</td></tr>
 <tr><td>Taxa de sucesso</td><td>~97,9%</td><td>"Confiável para a cadência diária; falha de um dia é coberta pelo dia seguinte"</td><td>Robustez e Escalabilidade</td></tr>
 <tr><td>Custo por relatório</td><td>R$ 0</td><td>"Diferencial competitivo: sem custo de IA"</td><td>RNF03 (custo R$ 0) ✅</td></tr>
-<tr><td>Break-even</td><td>~4 vendas</td><td>"O negócio é viável rapidamente"</td><td>Sustentabilidade econômica</td></tr>
+<tr><td>Payback do cliente</td><td>< 4 meses</td><td>"O investimento se recupera em poucos meses"</td><td>Sustentabilidade econômica</td></tr>
 <tr><td>ROI do cliente</td><td>> 200%/ano</td><td>"Proposta de valor difícil de recusar"</td><td>Valor de negócio</td></tr>
 </table></div>
 </div>
 </div>
 <div class="page-content" id="page-etica">
 
-<div class="content-wrapper"><h1 id="10-impacto-tico-lgpd-e-ia-respons-vel-id">10. Impacto Ético, LGPD e IA Responsável (ID 3.2)</h1>
+<div class="content-wrapper"><h1 id="10-impacto-tico-lgpd-e-ia-respons-vel">10. Impacto Ético, LGPD e IA Responsável</h1>
 
 <blockquote>
 <p>Esta seção analisa em profundidade os impactos <strong>éticos, legais e sociais</strong> do Assistente de Obra IA. Aplica a <strong>LGPD (Lei nº 13.709/2018)</strong> ao fluxo concreto de dados do pipeline, mapeia o sistema contra <strong>princípios de IA Responsável</strong>, identifica riscos e propõe <strong>ações de mitigação</strong> acionáveis. A análise parte de um princípio: tecnologia em construção civil lida com pessoas (operários, engenheiros, gestores) e com decisões que afetam segurança e dinheiro — logo, responsabilidade não é acessório, é requisito.</p>
@@ -1744,7 +1700,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <tr><td>Credenciais (tokens, senha SMTP)</td><td><code>.env</code></td><td>Sensível do ponto de vista de <strong>segurança</strong></td><td>Segredo (não é dado pessoal, mas exige proteção)</td></tr>
 </table></div>
 
-<h3 id="risco-latente-em-produ-o-dado-sens-vel-">Risco latente em produção (dado sensível)</h3>
+<h3 id="-risco-latente-em-produ-o-dado-sens-vel-">⚠️ Risco latente em produção (dado sensível)</h3>
 <p>Hoje o diário de obras <strong>não</strong> contém nomes de operários nem detalhes de saúde. Porém, em uso real, ocorrências do tipo <em>"acidente de trabalho com o operário Fulano"</em> introduziriam <strong>dados pessoais sensíveis</strong> (saúde — art. 5º, II da LGPD), elevando o nível de exigência legal. <strong>Recomendação:</strong> o diário deve registrar ocorrências de forma <strong>anonimizada/agregada</strong> (ex.: "1 afastamento por acidente leve") salvo quando houver base legal e finalidade específica para identificar a pessoa.</p>
 
 <hr>
@@ -1767,12 +1723,12 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <tr><th>Princípio (art. 6º)</th><th>Como o projeto atende</th><th>Lacuna / ação</th></tr>
 <tr><td><strong>Finalidade</strong></td><td>Dados usados só para gerar/entregar o relatório diário</td><td>✅ Documentar finalidade por escrito (aviso de privacidade)</td></tr>
 <tr><td><strong>Adequação & Necessidade (minimização)</strong></td><td>Coleta apenas nome+e-mail/chat e dados operacionais</td><td>✅ Não coletar dados além do necessário; evitar nomes no diário</td></tr>
-<tr><td><strong>Livre acesso</strong></td><td>Lista de destinatários é editável no CSV</td><td>⚠ Criar processo simples de consulta pelo titular</td></tr>
+<tr><td><strong>Livre acesso</strong></td><td>Lista de destinatários é editável no CSV</td><td>⚠️ Criar processo simples de consulta pelo titular</td></tr>
 <tr><td><strong>Transparência</strong></td><td>—</td><td>❌ <strong>Adicionar disclaimer</strong> de que o conteúdo é gerado por IA e como pedir descadastro</td></tr>
-<tr><td><strong>Segurança</strong> (art. 46)</td><td><code>.env</code> fora do Git; inferência local</td><td>⚠ Reforçar (ver §10.2.4)</td></tr>
+<tr><td><strong>Segurança</strong> (art. 46)</td><td><code>.env</code> fora do Git; inferência local</td><td>⚠️ Reforçar (ver §10.2.4)</td></tr>
 <tr><td><strong>Prevenção</strong></td><td><em>Error handler</em>, validação humana no 1º mês</td><td>✅</td></tr>
 <tr><td><strong>Não discriminação</strong></td><td>Sistema não decide sobre pessoas</td><td>✅ (baixo risco — ver §10.3)</td></tr>
-<tr><td><strong>Responsabilização (accountability)</strong></td><td>Logs em JSON/CSV registram cada execução</td><td>✅ Trilha de auditoria existente (aba Robustez e Escala)</td></tr>
+<tr><td><strong>Responsabilização (accountability)</strong></td><td>Logs em JSON/CSV registram cada execução</td><td>✅ Trilha de auditoria existente (doc 06)</td></tr>
 </table></div>
 
 <h3 id="10-2-3-direitos-dos-titulares-art-18-com">10.2.3. Direitos dos titulares (art. 18) — como atender</h3>
@@ -1791,11 +1747,11 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <div class="table-wrap"><table>
 <tr><th>Medida</th><th>Estado</th><th>Melhoria recomendada</th></tr>
 <tr><td>Segredos fora do versionamento</td><td>✅ <code>.gitignore</code> cobre <code>.env</code></td><td>—</td></tr>
-<tr><td>Senha SMTP</td><td>⚠ Texto plano no <code>.env</code></td><td>Usar <strong>senha de app</strong> dedicada (já é o padrão Gmail) e cofre de segredos em produção</td></tr>
-<tr><td>Dados em repouso</td><td>⚠ CSV/logs/áudios sem criptografia</td><td>Criptografar disco / restringir permissões de arquivo</td></tr>
+<tr><td>Senha SMTP</td><td>⚠️ Texto plano no <code>.env</code></td><td>Usar <strong>senha de app</strong> dedicada (já é o padrão Gmail) e cofre de segredos em produção</td></tr>
+<tr><td>Dados em repouso</td><td>⚠️ CSV/logs/áudios sem criptografia</td><td>Criptografar disco / restringir permissões de arquivo</td></tr>
 <tr><td>Dados em trânsito</td><td>✅ HTTPS (APIs) + TLS (SMTP/Telegram)</td><td>—</td></tr>
 <tr><td>Retenção / descarte</td><td>❌ Áudios e logs acumulam indefinidamente</td><td><strong>Política de retenção:</strong> expurgar áudios/logs após N meses</td></tr>
-<tr><td>Controle de acesso</td><td>⚠ Máquina local</td><td>Restringir acesso físico/lógico ao host</td></tr>
+<tr><td>Controle de acesso</td><td>⚠️ Máquina local</td><td>Restringir acesso físico/lógico ao host</td></tr>
 </table></div>
 
 <h3 id="10-2-5-transfer-ncia-internacional-de-da">10.2.5. Transferência internacional de dados (art. 33)</h3>
@@ -1803,9 +1759,9 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <p>Ponto <strong>central</strong> e diferencial do projeto:</p>
 
 <ul>
-<li><strong>A IA (LLM Ollama + TTS Kokoro) roda 100% localmente.</strong> Nenhum dado do diário de obras é enviado a APIs de IA de terceiros (OpenAI, Google, etc.). Isso <strong>elimina a maior fonte de exposição</strong> de dados em projetos de IA e é uma vantagem decisiva de privacidade (RNF02).</li>
-<li><strong>Canais de entrega usam servidores no exterior:</strong> Telegram e Gmail (Google) processam o conteúdo do relatório e os dados de contato em infraestrutura internacional. Isso configura <strong>transferência internacional</strong> e deve ser informado aos titulares; ambos os provedores possuem salvaguardas contratuais, mas a construtora deve declarar esse fluxo em seu aviso de privacidade.</li>
-<li><strong>APIs OpenWeather/Nominatim</strong> recebem apenas <strong>a cidade/coordenadas da obra</strong> — dado não-pessoal.</li>
+<li>✅ <strong>A IA (LLM Ollama + TTS Kokoro) roda 100% localmente.</strong> Nenhum dado do diário de obras é enviado a APIs de IA de terceiros (OpenAI, Google, etc.). Isso <strong>elimina a maior fonte de exposição</strong> de dados em projetos de IA e é uma vantagem decisiva de privacidade (RNF02).</li>
+<li>⚠️ <strong>Canais de entrega usam servidores no exterior:</strong> Telegram e Gmail (Google) processam o conteúdo do relatório e os dados de contato em infraestrutura internacional. Isso configura <strong>transferência internacional</strong> e deve ser informado aos titulares; ambos os provedores possuem salvaguardas contratuais, mas a construtora deve declarar esse fluxo em seu aviso de privacidade.</li>
+<li>✅ <strong>APIs OpenWeather/Nominatim</strong> recebem apenas <strong>a cidade/coordenadas da obra</strong> — dado não-pessoal.</li>
 </ul>
 
 <blockquote>
@@ -1820,13 +1776,13 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <div class="table-wrap"><table>
 <tr><th>Princípio de IA Responsável</th><th>Situação no projeto</th><th>Mitigação implementada / proposta</th></tr>
-<tr><td><strong>Supervisão humana</strong> (<em>human-in-the-loop</em>)</td><td>A sugestão é consultiva; o engenheiro decide</td><td>✅ Validação humana recomendada no 1º mês (aba Análise e Limitações); a IA <strong>nunca</strong> aciona obra sozinha</td></tr>
+<tr><td><strong>Supervisão humana</strong> (<em>human-in-the-loop</em>)</td><td>A sugestão é consultiva; o engenheiro decide</td><td>✅ Validação humana recomendada no 1º mês (doc 03); a IA <strong>nunca</strong> aciona obra sozinha</td></tr>
 <tr><td><strong>Transparência / explicabilidade</strong></td><td>Destinatário pode não saber que é texto de IA</td><td>❌→ <strong>Adicionar disclaimer</strong> "relatório gerado por IA com base no diário e na previsão; confira antes de decidir"</td></tr>
-<tr><td><strong>Robustez e segurança</strong></td><td>Risco de alucinação (correlação espúria clima×obra)</td><td>✅ Prompt restritivo, temperatura 0.7, limite de tokens, "use só os dados fornecidos" (aba Análise e Limitações)</td></tr>
+<tr><td><strong>Robustez e segurança</strong></td><td>Risco de alucinação (correlação espúria clima×obra)</td><td>✅ Prompt restritivo, temperatura 0.7, limite de tokens, "use só os dados fornecidos" (doc 03)</td></tr>
 <tr><td><strong>Justiça / não-discriminação</strong></td><td>Não há decisão sobre indivíduos</td><td>✅ Baixo risco; o output é sobre cronograma físico, não sobre pessoas</td></tr>
-<tr><td><strong>Responsabilização</strong></td><td>Necessário saber quem responde por erro</td><td>✅ Logs/auditoria; ⚠ definir responsável formal (o engenheiro valida e assume a decisão final)</td></tr>
+<tr><td><strong>Responsabilização</strong></td><td>Necessário saber quem responde por erro</td><td>✅ Logs/auditoria; ⚠️ definir responsável formal (o engenheiro valida e assume a decisão final)</td></tr>
 <tr><td><strong>Privacidade desde a concepção</strong> (<em>privacy by design</em>)</td><td>IA local por decisão de arquitetura</td><td>✅ Inferência 100% local — privacidade é uma escolha estrutural, não um remendo</td></tr>
-<tr><td><strong>Confiabilidade</strong></td><td>Output pode variar</td><td>✅ Datas dinâmicas, parsing validado; ⚠ monitorar qualidade ao longo do tempo</td></tr>
+<tr><td><strong>Confiabilidade</strong></td><td>Output pode variar</td><td>✅ Datas dinâmicas, parsing validado; ⚠️ monitorar qualidade ao longo do tempo</td></tr>
 </table></div>
 
 <h3 id="o-risco-mais-importante-alucina-o-com-co">O risco mais importante: alucinação com consequência física</h3>
@@ -1861,13 +1817,13 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <div class="table-wrap"><table>
 <tr><th>#</th><th>Ação</th><th>Prioridade</th><th>Esforço</th></tr>
-<tr><td>1</td><td>Adicionar <strong>disclaimer de IA</strong> no rodapé do relatório (texto e e-mail): conteúdo gerado por IA, confira antes de decidir</td><td>Alta</td><td>Baixo</td></tr>
-<tr><td>2</td><td>Incluir <strong>instrução de descadastro</strong> ("responda SAIR / clique aqui") nas mensagens</td><td>Alta</td><td>Baixo</td></tr>
-<tr><td>3</td><td>Redigir <strong>aviso de privacidade</strong> declarando finalidade, base legal, uso de Telegram/Gmail e direitos do titular</td><td>Alta</td><td>Médio</td></tr>
-<tr><td>4</td><td>Definir e implementar <strong>política de retenção</strong> (expurgo de áudios/logs após N meses)</td><td>Média</td><td>Baixo</td></tr>
-<tr><td>5</td><td>Orientar registro <strong>anonimizado</strong> de ocorrências com pessoas no diário</td><td>Média</td><td>Baixo</td></tr>
-<tr><td>6</td><td><strong>Criptografia em repouso</strong> e restrição de permissões dos arquivos de dados</td><td>Baixa</td><td>Médio</td></tr>
-<tr><td>7</td><td>Em modelo SaaS: formalizar <strong>contrato controlador-operador</strong> (art. 39) com cláusulas LGPD</td><td>Futuro</td><td>Médio</td></tr>
+<tr><td>1</td><td>Adicionar <strong>disclaimer de IA</strong> no rodapé do relatório (texto e e-mail): conteúdo gerado por IA, confira antes de decidir</td><td>🔴 Alta</td><td>Baixo</td></tr>
+<tr><td>2</td><td>Incluir <strong>instrução de descadastro</strong> ("responda SAIR / clique aqui") nas mensagens</td><td>🔴 Alta</td><td>Baixo</td></tr>
+<tr><td>3</td><td>Redigir <strong>aviso de privacidade</strong> declarando finalidade, base legal, uso de Telegram/Gmail e direitos do titular</td><td>🔴 Alta</td><td>Médio</td></tr>
+<tr><td>4</td><td>Definir e implementar <strong>política de retenção</strong> (expurgo de áudios/logs após N meses)</td><td>🟠 Média</td><td>Baixo</td></tr>
+<tr><td>5</td><td>Orientar registro <strong>anonimizado</strong> de ocorrências com pessoas no diário</td><td>🟠 Média</td><td>Baixo</td></tr>
+<tr><td>6</td><td><strong>Criptografia em repouso</strong> e restrição de permissões dos arquivos de dados</td><td>🟡 Baixa</td><td>Médio</td></tr>
+<tr><td>7</td><td>Em modelo SaaS: formalizar <strong>contrato controlador-operador</strong> (art. 39) com cláusulas LGPD</td><td>🟡 Futuro</td><td>Médio</td></tr>
 </table></div>
 
 <hr>
