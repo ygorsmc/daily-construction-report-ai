@@ -69,11 +69,22 @@ Detalhamento completo (estatística descritiva, modelo de confiabilidade, paybac
 
 ---
 
-## Requisitos de Hardware / Software
+## Máquina de Referência (Desenvolvimento e Testes)
 
-| Componente | Especificações / Setup | Notas |
+Hardware em que o projeto foi desenvolvido e em que todas as métricas deste portal foram medidas — **isto não é um piso mínimo validado**, é o que estava disponível.
+
+| Componente | Especificação |
+|---|---|
+| GPU | GTX 1660 Ti — 6 GB VRAM |
+| RAM | 32 GB |
+| SO | Linux |
+
+> O modelo de 14B **excede** os 6 GB de VRAM e usa *offloading* para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n. O sistema nunca foi testado abaixo desta configuração: o Canvas de Projeto declara um piso teórico de 4 GB de VRAM (RNF04), mas esse valor não foi validado empiricamente — trate-o como não confirmado até que alguém rode nele.
+
+## Software Necessário
+
+| Componente | Versão / Setup | Notas |
 |---|---|---|
-| **Hardware de referência** | Notebook com **GPU GTX 1660 Ti (6 GB VRAM)**, 32 GB RAM | Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B **excede** os 6 GB e usa *offloading* para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n. |
 | Ollama | 0.21 (`qwen2.5:14b`) | Modelo de homologação (testado). O sistema é **agnóstico**: basta alterar o `.env` para usar outros modelos (Llama 3, Phi-3, etc). |
 | Node.js & n8n | 18+ / `npm i -g n8n` | Host do orquestrador. |
 | Python | 3.12 (`.venv` isolado) | Motor de áudio (Kokoro) + microsserviço de e-mail. |

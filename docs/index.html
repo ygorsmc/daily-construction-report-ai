@@ -184,7 +184,8 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <a href="#como-funciona" class="dropdown-link" data-page="inicio">Como funciona</a>
 <a href="#prova-de-conceito" class="dropdown-link" data-page="inicio">Prova de conceito</a>
 <a href="#n-meros-do-projeto" class="dropdown-link" data-page="inicio">Números do projeto</a>
-<a href="#requisitos-de-hardware-software" class="dropdown-link" data-page="inicio">Requisitos de Hardware / Software</a>
+<a href="#m-quina-de-refer-ncia-desenvolvimento-e-" class="dropdown-link" data-page="inicio">Máquina de Referência (Desenvolvimento e Testes)</a>
+<a href="#software-necess-rio" class="dropdown-link" data-page="inicio">Software Necessário</a>
 <a href="#topologia-do-projeto" class="dropdown-link" data-page="inicio">Topologia do Projeto</a>
 <a href="#como-rodar-o-projeto" class="dropdown-link" data-page="inicio">Como rodar o projeto</a>
 <a href="#1-modelos-de-ia-llm-e-tts-" class="dropdown-link" data-page="inicio">1. Modelos de IA (LLM e TTS)</a>
@@ -419,11 +420,25 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 
 <hr>
 
-<h2 id="requisitos-de-hardware-software">Requisitos de Hardware / Software</h2>
+<h2 id="m-quina-de-refer-ncia-desenvolvimento-e-">Máquina de Referência (Desenvolvimento e Testes)</h2>
+
+<p>Hardware em que o projeto foi desenvolvido e em que todas as métricas deste portal foram medidas — <strong>isto não é um piso mínimo validado</strong>, é o que estava disponível.</p>
 
 <div class="table-wrap"><table>
-<tr><th>Componente</th><th>Especificações / Setup</th><th>Notas</th></tr>
-<tr><td><strong>Hardware de referência</strong></td><td>Notebook com <strong>GPU GTX 1660 Ti (6 GB VRAM)</strong>, 32 GB RAM</td><td>Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B <strong>excede</strong> os 6 GB e usa <em>offloading</em> para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n.</td></tr>
+<tr><th>Componente</th><th>Especificação</th></tr>
+<tr><td>GPU</td><td>GTX 1660 Ti — 6 GB VRAM</td></tr>
+<tr><td>RAM</td><td>32 GB</td></tr>
+<tr><td>SO</td><td>Linux</td></tr>
+</table></div>
+
+<blockquote>
+<p>O modelo de 14B <strong>excede</strong> os 6 GB de VRAM e usa <em>offloading</em> para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n. O sistema nunca foi testado abaixo desta configuração: o Canvas de Projeto declara um piso teórico de 4 GB de VRAM (RNF04), mas esse valor não foi validado empiricamente — trate-o como não confirmado até que alguém rode nele.</p>
+</blockquote>
+
+<h2 id="software-necess-rio">Software Necessário</h2>
+
+<div class="table-wrap"><table>
+<tr><th>Componente</th><th>Versão / Setup</th><th>Notas</th></tr>
 <tr><td>Ollama</td><td>0.21 (<code>qwen2.5:14b</code>)</td><td>Modelo de homologação (testado). O sistema é <strong>agnóstico</strong>: basta alterar o <code>.env</code> para usar outros modelos (Llama 3, Phi-3, etc).</td></tr>
 <tr><td>Node.js & n8n</td><td>18+ / <code>npm i -g n8n</code></td><td>Host do orquestrador.</td></tr>
 <tr><td>Python</td><td>3.12 (<code>.venv</code> isolado)</td><td>Motor de áudio (Kokoro) + microsserviço de e-mail.</td></tr>
@@ -973,6 +988,8 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
                 <li>RNF01 - Performance: execução ponta a ponta em &lt; 300 segundos (5 minutos).</li>
                 <li>RNF02 - Privacidade: 100% inferência local (IA generativa).</li>
                 <li>RNF03 - Custo de operação: sem API paga nem licença — R$ 0 de custo de IA por relatório.</li>
+                <li>RNF04 - Portabilidade: GPU de 4 GB+ VRAM — meta <strong>não validada empiricamente</strong> (única máquina testada tem 6 GB, ver README).</li>
+                <li>RNF05 - Idioma: todo output (texto e áudio) em Português Brasileiro — voz <code>pf_dora</code>.</li>
             </ul>
         </div>
 
