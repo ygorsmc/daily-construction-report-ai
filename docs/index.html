@@ -411,7 +411,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <tr><th>Métrica</th><th>Valor</th><th>Origem</th></tr>
 <tr><td>Latência mediana ponta a ponta (P50)</td><td><strong>3,5 min</strong></td><td>9 execuções reais medidas</td></tr>
 <tr><td>Ganho sobre o processo manual</td><td><strong>≈ 11×</strong> (−91%)</td><td>vs. baseline arbitrado de ~40 min de compilação manual</td></tr>
-<tr><td>Aderência ao SLA (< 300 s)</td><td><strong>8 de 9 (88,9%)</strong></td><td>uma execução estourou o teto em 8 s</td></tr>
+<tr><td>Aderência ao SLA (&lt; 300 s)</td><td><strong>8 de 9 (88,9%)</strong></td><td>uma execução estourou o teto em 8 s</td></tr>
 <tr><td>Confiabilidade modelada por execução</td><td><strong>≈ 97,9%</strong></td><td>produto das disponibilidades das dependências</td></tr>
 <tr><td>Custo de IA por relatório</td><td><strong>R$ 0</strong></td><td>inferência 100% local, sem API paga</td></tr>
 </table></div>
@@ -576,7 +576,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 
 <div class="table-wrap"><table>
 <tr><th>Decisão</th><th>Por que depende do clima</th><th>Referência normativa</th></tr>
-<tr><td><strong>Quando concretar?</strong></td><td>A concretagem sob chuva é condicionada: precipitação <strong>fraca (< 2,5 mm/h)</strong> dispensa medidas extras, mas acima disso a água interfere na superfície do concreto e passa a ser exigida proteção — sob risco de delaminação, perda de resistência (fck) e fissuração.</td><td>ABNT <strong>NBR 14931:2023</strong>, Tabela 7 (revisão que passou a tratar explicitamente a concretagem em períodos chuvosos)</td></tr>
+<tr><td><strong>Quando concretar?</strong></td><td>A concretagem sob chuva é condicionada: precipitação <strong>fraca (&lt; 2,5 mm/h)</strong> dispensa medidas extras, mas acima disso a água interfere na superfície do concreto e passa a ser exigida proteção — sob risco de delaminação, perda de resistência (fck) e fissuração.</td><td>ABNT <strong>NBR 14931:2023</strong>, Tabela 7 (revisão que passou a tratar explicitamente a concretagem em períodos chuvosos)</td></tr>
 <tr><td><strong>Quando pintar ou impermeabilizar?</strong></td><td>Não se aplica pintura sob chuva, neblina ou com <strong>umidade relativa acima de 85%</strong> — e, textualmente, <strong>"nem quando houver expectativa de que esse valor seja atingido"</strong>. A regra não pede o clima do momento: pede a previsão.</td><td><strong>ABRACO RP PAC-001</strong> (Recomendação Prática — Pintura Anticorrosiva); ABNT <strong>NBR 9574</strong> para execução de impermeabilização</td></tr>
 <tr><td><strong>Que frentes priorizar?</strong></td><td>A alocação de equipes depende do estágio de cada frente — informação que está no diário — cruzado com a janela de dias secos disponível.</td><td>Decorrência operacional das duas anteriores</td></tr>
 </table></div>
@@ -730,7 +730,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 <div class="table-wrap"><table>
 <tr><th>#</th><th>Objetivo</th><th>Específico</th><th>Mensurável</th><th>Alcançável</th><th>Relevante</th><th>Prazo</th><th>Frente</th><th>Status</th></tr>
 <tr><td>O1</td><td>Automatizar a coleta de dados climáticos via APIs públicas</td><td>Integrar OpenWeather (previsão 5 dias) e Nominatim (geocodificação)</td><td>100% das consultas meteorológicas via API, zero consulta manual</td><td>APIs públicas gratuitas e documentadas</td><td>Permite planejar concretagem, pintura e impermeabilização com base em dados reais</td><td>Fim da prototipagem</td><td>Infraestrutura</td><td>✅ Atingido</td></tr>
-<tr><td>O2</td><td>Gerar relatório com resumo do diário + previsão + sugestão técnica</td><td>Consolidar diário de obras + clima (OpenWeather) em relatório de 3 seções usando LLM local (Ollama)</td><td>Relatório gerado em < 60 segundos, com sugestões acionáveis</td><td>Modelos de 4-14B parâmetros rodam em GPU de 6 GB</td><td>Responsável recebe orientação prática sem precisar reler o diário</td><td>Fim da prototipagem</td><td>Núcleo de IA</td><td>⚠️ <strong>Não atingido na métrica de tempo</strong> — ver abaixo</td></tr>
+<tr><td>O2</td><td>Gerar relatório com resumo do diário + previsão + sugestão técnica</td><td>Consolidar diário de obras + clima (OpenWeather) em relatório de 3 seções usando LLM local (Ollama)</td><td>Relatório gerado em &lt; 60 segundos, com sugestões acionáveis</td><td>Modelos de 4-14B parâmetros rodam em GPU de 6 GB</td><td>Responsável recebe orientação prática sem precisar reler o diário</td><td>Fim da prototipagem</td><td>Núcleo de IA</td><td>⚠️ <strong>Não atingido na métrica de tempo</strong> — ver abaixo</td></tr>
 <tr><td>O3</td><td>Sintetizar áudio do resumo executivo</td><td>Converter resumo em arquivo .wav usando Kokoro TTS local</td><td>Arquivo de áudio funcional gerado automaticamente</td><td>Modelo ONNX roda localmente sem API externa</td><td>Permite consumo rápido por gestores em campo ou deslocamento</td><td>Fim da prototipagem</td><td>Núcleo de IA</td><td>✅ Atingido</td></tr>
 <tr><td>O4</td><td>Distribuir relatório automaticamente</td><td>Enviar pacote (texto + áudio) via Telegram Bot todo dia útil às 06:30</td><td>Entrega sem intervenção humana</td><td>Bot API gratuita, infraestrutura local já existente</td><td>Responsável começa o dia já atualizado e com plano de ação</td><td>Fim da prototipagem</td><td>Integração</td><td>✅ Atingido (ampliado para 2 canais: Telegram + e-mail)</td></tr>
 </table></div>
@@ -740,7 +740,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 </blockquote>
 <p>></p>
 <blockquote>
-<p>O objetivo O2 estabeleceu "relatório gerado em < 60 segundos". A medição real do nó do Ollama ficou em <strong>~72 s de média, com pico de 139 s</strong> no payload longo (aba Testes de Stress). <strong>O alvo de 60 s não foi cumprido.</strong></p>
+<p>O objetivo O2 estabeleceu "relatório gerado em &lt; 60 segundos". A medição real do nó do Ollama ficou em <strong>~72 s de média, com pico de 139 s</strong> no payload longo (aba Testes de Stress). <strong>O alvo de 60 s não foi cumprido.</strong></p>
 </blockquote>
 <p>></p>
 <blockquote>
@@ -748,7 +748,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 </blockquote>
 <p>></p>
 <blockquote>
-<p>Como o pipeline roda uma vez por dia, de madrugada, sem ninguém esperando, o requisito que de fato governa o negócio é o <strong>RNF01 (< 300 s ponta a ponta)</strong> — esse sim atingido em 8 de 9 execuções, com mediana de 208 s. Em retrospecto, <strong>o alvo de 60 s foi mal calibrado na etapa de planejamento</strong>: fixou um limite de componente antes de conhecer o custo real de inferência do modelo escolhido.</p>
+<p>Como o pipeline roda uma vez por dia, de madrugada, sem ninguém esperando, o requisito que de fato governa o negócio é o <strong>RNF01 (&lt; 300 s ponta a ponta)</strong> — esse sim atingido em 8 de 9 execuções, com mediana de 208 s. Em retrospecto, <strong>o alvo de 60 s foi mal calibrado na etapa de planejamento</strong>: fixou um limite de componente antes de conhecer o custo real de inferência do modelo escolhido.</p>
 </blockquote>
 <p>></p>
 <blockquote>
@@ -775,7 +775,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
                     <a href="#bloco-2" class="block-card">
                         <b>2. Objetivo SMART</b>
                         • Resumo diário + clima + sugestão<br>
-                        • Entrega automática < 4 min<br>
+                        • Entrega automática &lt; 5 min<br>
                             • Operação 100% autônoma
                     </a>
                     <a href="#bloco-3" class="block-card">
@@ -801,7 +801,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
                         <b>5. Requisitos</b>
                         • Geocodificação Automática<br>
                         • Execução E2E &lt; 300 s (5 min)<br>
-                            • Custo Operacional R$ 0
+                            • Custo de IA e licenças R$ 0
                     </a>
                 </div>
             </div>
@@ -814,7 +814,8 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
                         <b>6. Stakeholders</b>
                         • Engenheiro Residente<br>
                         • Gerente de Obras<br>
-                        • Diretoria / Investidores
+                        • Diretoria<br>
+                        • Órgãos de fiscalização
                     </a>
                     <a href="#bloco-7" class="block-card">
                         <b>7. Equipe</b>
@@ -878,7 +879,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
         <div id="bloco-1" class="content-section">
             <h2><span class="badge bg-why">POR QUÊ?</span> 1. Justificativa</h2>
             <p>O engenheiro responsável por uma obra precisa, diariamente, tomar decisões como: <strong>quando concretar</strong>, <strong>quando pintar ou impermeabilizar</strong>, <strong>que frentes de serviço priorizar</strong>. Para isso, ele precisa reler o diário de obras, consultar a previsão do tempo e cruzar mentalmente essas informações — um processo repetitivo, manual e frequentemente negligenciado.</p>
-            <p>Segundo a McKinsey (2017), a construção civil é o <strong>segundo setor menos digitalizado do mundo</strong>. No Brasil, erguer um prédio residencial padrão — que poderia levar pouco mais de um ano — leva em média <strong>mais do que o dobro desse tempo</strong> (Deloitte/Fiesp, 2023), e a CBIC estima que os atrasos no processo respondem por cerca de <strong>12% do custo de uma obra</strong>.</p>
+            <p>Segundo a McKinsey (2017), a construção civil aparece como <strong>um dos setores menos digitalizados</strong> do índice — penúltima posição, à frente apenas da agricultura e da caça (o índice é construído sobre setores da economia norte-americana; ver a ressalva completa na aba <em>Diagnóstico e Objetivos</em>). No Brasil, erguer um prédio residencial padrão — que poderia levar pouco mais de um ano — leva em média <strong>mais do que o dobro desse tempo</strong> (Deloitte/Fiesp, 2023), e a CBIC estima que os atrasos no processo respondem por cerca de <strong>12% do custo de uma obra</strong>.</p>
             <p><strong>O que motivou este projeto:</strong> Entregar ao responsável da obra, toda manhã (em dia útil), um resumo prático do que aconteceu + previsão do tempo + sugestão técnica para o dia — sem que ele precise abrir o diário de obras.</p>
         </div>
 
@@ -957,8 +958,8 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
                 </tr>
                 <tr>
                     <td>B6</td>
-                    <td><strong>Custo zero</strong></td>
-                    <td>Stack open-source, rodando localmente</td>
+                    <td><strong>Sem custo de IA nem de licença</strong></td>
+                    <td>Stack open-source rodando localmente — R$ 0 por relatório (ver bloco 13 para o que não está contabilizado)</td>
                 </tr>
             </table>
         </div>
@@ -1334,7 +1335,7 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <ul class="ordered">
 <li><strong>Execução sequencial garantida</strong>: O pipeline de dados e IA é linear (10 nós em série, do gatilho à preparação da saída), garantindo que o TTS só inicia após o LLM terminar completamente, evitando concorrência por VRAM. A distribuição multicanal ocorre apenas depois, em paralelo.</li>
 <li><strong>Timeout de segurança (300s)</strong>: O nó de requisição ao Ollama tem timeout de 5 minutos, prevenindo travamentos em caso de modelo lento.</li>
-<li><strong>Trade-off de hardware assumido conscientemente</strong>: O modelo de 14B <strong>excede</strong> os 6 GB de VRAM (GTX 1660 Ti) e usa <em>offloading</em> para RAM/CPU — uma escolha <strong>deliberada por qualidade</strong> do relatório (modelos menores 7B/8B não atingiram o mesmo nível). É viável porque a execução é <strong>diária e off-line</strong>, tornando o tempo extra irrelevante (ver aba Arquitetura e n8n, "Especificações de Modelagem LLM e TTS"). O timeout de 300s cobre com folga a inferência resultante. O custo dessa decisão está registrado abertamente: o objetivo O2 (< 60 s de geração) <strong>não foi atingido</strong> — ver aba Diagnóstico e Objetivos.</li>
+<li><strong>Trade-off de hardware assumido conscientemente</strong>: O modelo de 14B <strong>excede</strong> os 6 GB de VRAM (GTX 1660 Ti) e usa <em>offloading</em> para RAM/CPU — uma escolha <strong>deliberada por qualidade</strong> do relatório (modelos menores 7B/8B não atingiram o mesmo nível). É viável porque a execução é <strong>diária e off-line</strong>, tornando o tempo extra irrelevante (ver aba Arquitetura e n8n, "Especificações de Modelagem LLM e TTS"). O timeout de 300s cobre com folga a inferência resultante. O custo dessa decisão está registrado abertamente: o objetivo O2 (&lt; 60 s de geração) <strong>não foi atingido</strong> — ver aba Diagnóstico e Objetivos.</li>
 </ul>
 
 <hr>
@@ -1572,7 +1573,7 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 </blockquote>
 
 <div class="table-wrap"><table>
-<tr><th>#</th><th>Timestamp</th><th>Duração total (s)</th><th>Dentro do SLA (< 300s)?</th></tr>
+<tr><th>#</th><th>Timestamp</th><th>Duração total (s)</th><th>Dentro do SLA (&lt; 300s)?</th></tr>
 <tr><td>1</td><td>2026-05-19 12:07</td><td>271,10</td><td>✅</td></tr>
 <tr><td>2</td><td>2026-05-19 12:27</td><td>183,13</td><td>✅</td></tr>
 <tr><td>3</td><td>2026-05-19 12:32</td><td>173,31</td><td>✅</td></tr>
@@ -1593,11 +1594,11 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <tr><td><strong>Mediana (P50)</strong></td><td>208,14</td><td>3,47</td></tr>
 <tr><td><strong>Máximo</strong></td><td>308,11</td><td>5,14</td></tr>
 <tr><td><strong>Desvio-padrão (σ)</strong></td><td>≈ 45,6</td><td>≈ 0,76</td></tr>
-<tr><td><strong>Aderência ao SLA (< 300s)</strong></td><td><strong>8 de 9 → 88,9%</strong></td><td>—</td></tr>
+<tr><td><strong>Aderência ao SLA (&lt; 300s)</strong></td><td><strong>8 de 9 → 88,9%</strong></td><td>—</td></tr>
 </table></div>
 
 <blockquote>
-<p><strong>Leitura crítica:</strong> A latência mediana real (≈ 3,5 min) está <strong>confortavelmente dentro do requisito não-funcional RNF01 (< 5 min / 300s)</strong>. Apenas 1 das 9 execuções (a #8, com 308s) ultrapassou o teto em ~8 segundos — provavelmente por um relatório mais longo combinado com pressão de memória. Esse resultado confirma que o protótipo é <strong>apto para o cenário de uso definido</strong> (entrega diária de madrugada, antes do início da jornada), onde mesmo 5 minutos são imperceptíveis para o usuário.</p>
+<p><strong>Leitura crítica:</strong> A latência mediana real (≈ 3,5 min) está <strong>confortavelmente dentro do requisito não-funcional RNF01 (&lt; 5 min / 300s)</strong>. Apenas 1 das 9 execuções (a #8, com 308s) ultrapassou o teto em ~8 segundos — provavelmente por um relatório mais longo combinado com pressão de memória. Esse resultado confirma que o protótipo é <strong>apto para o cenário de uso definido</strong> (entrega diária de madrugada, antes do início da jornada), onde mesmo 5 minutos são imperceptíveis para o usuário.</p>
 </blockquote>
 <p>></p>
 <blockquote>
@@ -1621,7 +1622,7 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <p><strong>Conclusão:</strong> ~85% do tempo é consumido por dois nós de IA <em>on-device</em>. Otimizar a rede ou o n8n teria efeito desprezível; toda alavanca de melhoria de latência está na <strong>camada de modelos</strong>.</p>
 
 <blockquote>
-<p><strong>Efeito colateral registrado:</strong> é essa mesma escolha de modelo que faz o objetivo <strong>O2 (< 60 s de geração) não ser atingido</strong> — o nó do Ollama mede ~72 s de média. O alvo de negócio (RNF01, < 300 s ponta a ponta) é cumprido; o alvo de componente, não. A discussão completa está na aba Diagnóstico e Objetivos.</p>
+<p><strong>Efeito colateral registrado:</strong> é essa mesma escolha de modelo que faz o objetivo <strong>O2 (&lt; 60 s de geração) não ser atingido</strong> — o nó do Ollama mede ~72 s de média. O alvo de negócio (RNF01, &lt; 300 s ponta a ponta) é cumprido; o alvo de componente, não. A discussão completa está na aba Diagnóstico e Objetivos.</p>
 </blockquote>
 
 <h3 id="ganho-sobre-o-processo-manual-baseline-">Ganho sobre o processo manual (baseline)</h3>
@@ -1814,7 +1815,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <hr>
 
 <blockquote>
-<p><strong>Resumo executivo desta seção:</strong> Latência mediana real de <strong>3,5 min (P50)</strong> — ~11× mais rápida que o baseline manual estimado de ~40 min e dentro do SLA de 300 s em 8 de 9 execuções; confiabilidade modelada de <strong>~98% por execução</strong>, limitada pela infraestrutura física e não pelo software, com falhas de baixo impacto na cadência diária; e <strong>~R$ 13.860/ano de valor gerado por obra</strong> só em tempo de engenharia recuperado — <strong>payback de ~3,9 meses</strong> e <strong>ROI de ~208% no primeiro ano</strong> no cenário de referência, resultado que se mantém positivo em 8 das 9 combinações da análise de sensibilidade, com custo de operação próximo de zero. Em aberto e registrado: o objetivo <strong>O2 (< 60 s de geração) não foi atingido</strong> e há <strong>correções de defeito pendentes na Prioridade 0</strong>. As melhorias seguintes atacam primeiro a disponibilidade do <em>host</em> (maior risco) e depois a latência da camada de IA (maior consumo de tempo).</p>
+<p><strong>Resumo executivo desta seção:</strong> Latência mediana real de <strong>3,5 min (P50)</strong> — ~11× mais rápida que o baseline manual estimado de ~40 min e dentro do SLA de 300 s em 8 de 9 execuções; confiabilidade modelada de <strong>~98% por execução</strong>, limitada pela infraestrutura física e não pelo software, com falhas de baixo impacto na cadência diária; e <strong>~R$ 13.860/ano de valor gerado por obra</strong> só em tempo de engenharia recuperado — <strong>payback de ~3,9 meses</strong> e <strong>ROI de ~208% no primeiro ano</strong> no cenário de referência, resultado que se mantém positivo em 8 das 9 combinações da análise de sensibilidade, com custo de operação próximo de zero. Em aberto e registrado: o objetivo <strong>O2 (&lt; 60 s de geração) não foi atingido</strong> e há <strong>correções de defeito pendentes na Prioridade 0</strong>. As melhorias seguintes atacam primeiro a disponibilidade do <em>host</em> (maior risco) e depois a latência da camada de IA (maior consumo de tempo).</p>
 </blockquote>
 </div>
 </div>
@@ -1965,7 +1966,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <p><strong>A solução e a prova.</strong> O pipeline automatiza esse cruzamento e entrega o relatório em texto e áudio — e os dados mostram que funciona. A latência mediana é de <strong>3,5 minutos</strong> ponta a ponta, cerca de <strong>11× mais rápido</strong> que os ~40 minutos manuais, medida em 9 execuções reais com 88,9% dentro do SLA de 5 minutos. Desse tempo, ~85% é a IA local (LLM + TTS): não é um defeito, e sim o preço de não depender de nuvem paga e manter os dados da obra dentro de casa. A confiabilidade modelada é de <strong>~97,9% por execução</strong> — o equivalente a ~247 de 252 relatórios entregues por ano (dias úteis), sendo que a falha de um dia é naturalmente coberta pelo relatório do dia seguinte. E o custo por relatório é de <strong>R$ 0</strong>, já que toda a IA roda localmente. Em resumo: o que se estima custar 40 minutos do dia passou a custar 3,5 minutos medidos e zero reais.</p>
 
-<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (baseline arbitrado de 40 min/dia × R$ 82/h × 252 dias úteis), com payback de ~3,9 meses e ROI de ~208% no primeiro ano — antes mesmo de contar o retrabalho evitado, e mantendo-se positivo em 8 das 9 combinações da análise de sensibilidade. E, como toda a IA roda localmente, o <strong>custo marginal de operação é próximo de zero</strong>: replicar a solução em uma nova obra praticamente não adiciona custo. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução de custo zero, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
+<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (baseline arbitrado de 40 min/dia × R$ 82/h × 252 dias úteis), com payback de ~3,9 meses e ROI de ~208% no primeiro ano — antes mesmo de contar o retrabalho evitado, e mantendo-se positivo em 8 das 9 combinações da análise de sensibilidade. E, como toda a IA roda localmente, o <strong>custo marginal de operação é próximo de zero</strong>: replicar a solução em uma nova obra praticamente não adiciona custo. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução <strong>sem custo de IA nem de licença</strong>, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
 
 <hr>
 
@@ -1975,7 +1976,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <div class="table-wrap"><table>
 <tr><th>Métrica</th><th>O que conta na história</th><th>Objetivo conectado</th></tr>
-<tr><td>Latência mediana (P50)</td><td>"É praticamente instantâneo para quem usa"</td><td>RNF01 (< 5 min) ✅</td></tr>
+<tr><td>Latência mediana (P50)</td><td>"É praticamente instantâneo para quem usa"</td><td>RNF01 (&lt; 5 min) ✅</td></tr>
 <tr><td>Ganho sobre o manual</td><td>"Devolve ~40 min do dia ao engenheiro, todo dia"</td><td>Objetivo principal (40 min → minutos) ✅</td></tr>
 <tr><td>Aderência ao SLA</td><td>"Consistente — e o outlier que estourou o teto está mostrado, não escondido"</td><td>Confiabilidade do protótipo</td></tr>
 <tr><td>Tempo de geração do LLM</td><td>"A qualidade do relatório custou o alvo de 60 s, e a escolha está documentada"</td><td>O2 ⚠️ não atingido</td></tr>
@@ -2107,7 +2108,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <h3 id="impactos-positivos">Impactos positivos</h3>
 <ul>
-<li><strong>Democratização tecnológica:</strong> por ser open-source e de custo zero, leva IA aplicada a <strong>construtoras de pequeno e médio porte</strong>, que normalmente ficam de fora da transformação digital do setor.</li>
+<li><strong>Democratização tecnológica:</strong> por ser open-source e não ter custo de IA nem de licença, leva IA aplicada a <strong>construtoras de pequeno e médio porte</strong>, que normalmente ficam de fora da transformação digital do setor.</li>
 <li><strong>Acessibilidade da informação:</strong> o formato em <strong>áudio</strong> (TTS) torna o relatório consumível por quem está em campo, em deslocamento, ou tem menor familiaridade com leitura de relatórios técnicos longos — aproximando o canteiro do escritório.</li>
 <li><strong>Redução de desperdício:</strong> menos retrabalho (concretagem/pintura mal planejadas) significa <strong>menos consumo de material e energia</strong> — um ganho ambiental indireto.</li>
 <li><strong>Valorização do trabalho humano:</strong> ao automatizar a tarefa repetitiva de compilação, devolve ao engenheiro <strong>tempo para o trabalho de maior valor</strong> (análise, decisão, gestão de equipe).</li>
