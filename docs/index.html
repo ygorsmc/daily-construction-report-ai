@@ -205,6 +205,8 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <a href="#o-dado-existe-o-gargalo-consult-lo" class="dropdown-link" data-page="diagnostico">O dado existe — o gargalo é consultá-lo</a>
 <a href="#fatores-contribuintes" class="dropdown-link" data-page="diagnostico">Fatores Contribuintes</a>
 <a href="#consequ-ncias-estimadas" class="dropdown-link" data-page="diagnostico">Consequências Estimadas</a>
+<a href="#nota-metodol-gica-de-onde-v-m-os-40-minu" class="dropdown-link" data-page="diagnostico">Nota metodológica — de onde vêm os ~40 minutos</a>
+<a href="#fronteira-do-ganho-o-que-o-pipeline-efet" class="dropdown-link" data-page="diagnostico">Fronteira do ganho — o que o pipeline efetivamente substitui</a>
 <a href="#a-solu-o-relat-rio-di-rio-automatizado" class="dropdown-link" data-page="diagnostico">A Solução: Relatório Diário Automatizado</a>
 <a href="#planejamento-macro-pmc-" class="dropdown-link" data-page="diagnostico">Planejamento Macro (PMC)</a>
 <a href="#contextualiza-o-do-desafio" class="dropdown-link" data-page="diagnostico">Contextualização do Desafio</a>
@@ -357,12 +359,12 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 
 <p>O insumo dessas decisões existe e é formalizado: em obra pública, a <strong>Lei nº 14.133/2021 (art. 117, § 1º)</strong> determina que o fiscal do contrato anote "em registro próprio" todas as ocorrências da execução — o diário de obra. <em>(Ressalva de atualidade: a exigência do <strong>Livro de Ordem</strong> pelo sistema CONFEA/CREA foi <strong>revogada em fevereiro de 2023</strong>; o registro diário permanece por força contratual e, na obra pública, por força da Lei de Licitações.)</em></p>
 
-<p><strong>O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.</strong> A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é mensurável: o estudo <em>Construction Disconnected</em> (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou <strong>5,5 horas por semana por pessoa apenas procurando dados de projeto</strong> — algo em torno de 66 minutos por dia útil.</p>
+<p><strong>O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.</strong> A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é reconhecido e quantificado: o estudo <em>Construction Disconnected</em> (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou <strong>5,5 horas por semana por pessoa apenas procurando dados de projeto</strong>. Esse número agrega a busca por normas, projetos, especificações e relatórios diversos — a consulta ao diário é só uma fatia dele —, então ele estabelece que <strong>o problema existe</strong>, sem dimensionar a tarefa específica que este pipeline automatiza.</p>
 
 <p>Este pipeline elimina esse garimpo para o caso específico do planejamento diário: cruza sozinho o diário de obras com a previsão do tempo, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.</p>
 
 <blockquote>
-<p><strong>Sobre o baseline de ~40 minutos/dia</strong> usado nos cálculos de ganho e ROI: é uma <strong>premissa de trabalho arbitrada</strong>, não uma medição — ver a nota metodológica na aba <em>Diagnóstico e Objetivos</em> do portal, e a análise de sensibilidade em <em>Métricas e ROI</em>, que recalcula o retorno para 20, 30 e 40 min/dia.</p>
+<p><strong>Sobre o baseline de ~40 minutos/dia</strong> usado nos cálculos de ganho e ROI: compõe-se de <strong>~30 min da rotina do diário de obras</strong> (prática recomendada por fornecedores de RDO digital) mais <strong>~10 min arbitrados</strong> para consultar a previsão e correlacioná-la com as frentes ativas. Vale a fronteira: o pipeline <strong>não captura o dado em campo</strong> — ele substitui a consolidação, a redação e o cruzamento com o clima. A nota metodológica na aba <em>Diagnóstico e Objetivos</em> detalha isso, e a análise de sensibilidade em <em>Métricas e ROI</em> recalcula o retorno para 20, 30 e 40 min/dia.</p>
 </blockquote>
 
 <hr>
@@ -421,7 +423,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 
 <div class="table-wrap"><table>
 <tr><th>Componente</th><th>Especificações / Setup</th><th>Notas</th></tr>
-<tr><td><strong>Hardware de referência</strong></td><td>Notebook com <strong>GPU GTX 1660 Ti (6 GB VRAM)</strong>, 16 GB RAM</td><td>Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B <strong>excede</strong> os 6 GB e usa <em>offloading</em> para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n.</td></tr>
+<tr><td><strong>Hardware de referência</strong></td><td>Notebook com <strong>GPU GTX 1660 Ti (6 GB VRAM)</strong>, 32 GB RAM</td><td>Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B <strong>excede</strong> os 6 GB e usa <em>offloading</em> para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n.</td></tr>
 <tr><td>Ollama</td><td>0.21 (<code>qwen2.5:14b</code>)</td><td>Modelo de homologação (testado). O sistema é <strong>agnóstico</strong>: basta alterar o <code>.env</code> para usar outros modelos (Llama 3, Phi-3, etc).</td></tr>
 <tr><td>Node.js & n8n</td><td>18+ / <code>npm i -g n8n</code></td><td>Host do orquestrador.</td></tr>
 <tr><td>Python</td><td>3.12 (<code>.venv</code> isolado)</td><td>Motor de áudio (Kokoro) + microsserviço de e-mail.</td></tr>
@@ -584,8 +586,16 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 
 <ul>
 <li><strong>O diário é frequentemente subutilizado.</strong> A literatura setorial (institutos de ensino em engenharia de custos e fornecedores de RDO digital) descreve como comum que, na rotina acelerada do canteiro, o diário seja negligenciado ou preenchido de forma superficial — perdendo valor tanto como ferramenta de controle quanto como prova documental. <em>(Ressalva de qualidade de fonte: são publicações setoriais e de fornecedores, não estudos acadêmicos revisados por pares.)</em></li>
-<li><strong>Garimpar informação de projeto custa tempo mensurável.</strong> O estudo <strong>Construction Disconnected</strong> (FMI Corporation + PlanGrid, abril de 2018), com <strong>~600 profissionais</strong> do setor (500 nos EUA e 99 em Austrália, Nova Zelândia, Reino Unido e Canadá), apurou mais de <strong>14 horas semanais por pessoa</strong> em atividades não-produtivas, das quais <strong>5,5 horas por semana são gastas apenas procurando dados de projeto</strong> — cerca de <strong>66 minutos por dia útil</strong>. <em>(Ressalva de aplicabilidade: amostra majoritariamente norte-americana e atividade mais ampla do que a tarefa específica tratada aqui; serve como ordem de grandeza, não como medida do caso brasileiro.)</em></li>
+<li><strong>Garimpar informação de projeto é um custo reconhecido e quantificado do setor.</strong> O estudo <strong>Construction Disconnected</strong> (FMI Corporation + PlanGrid, abril de 2018), com <strong>~600 profissionais</strong> (500 nos EUA e 99 em Austrália, Nova Zelândia, Reino Unido e Canadá), apurou mais de <strong>14 horas semanais por pessoa</strong> em atividades não-produtivas, das quais <strong>5,5 h/semana apenas procurando dados de projeto</strong>.</li>
 </ul>
+
+<blockquote>
+<p><strong>Ressalva sobre o alcance deste dado — ele não dimensiona a tarefa deste projeto.</strong> Essas 5,5 h/semana agregam a busca por <strong>toda</strong> informação de projeto: normas técnicas, projetos executivos e construtivos, especificações, RFIs, relatórios diversos e registros de execução. A consulta ao diário de obras é apenas <strong>uma fatia desse conjunto, de tamanho desconhecido</strong>. A amostra é, além disso, majoritariamente norte-americana.</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>Ou seja: o estudo serve para estabelecer que <strong>o problema existe e tem custo mensurável</strong>, e <strong>não</strong> para validar o baseline de 40 min/dia adotado adiante. Uma inferência do tipo <em>"40 min está abaixo dos ~66 min/dia do estudo, logo é conservador"</em> seria indevida — compararia uma tarefa estreita com um agregado amplo, e a fatia realmente comparável poderia ser bem menor que 40 minutos.</p>
+</blockquote>
 
 <p>O resultado prático: decisões tomadas sem dados atualizados, gerando paralisações evitáveis, retrabalho e atrasos.</p>
 
@@ -629,25 +639,31 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 <tr><td>Baixa taxa de leitura pelos stakeholders</td><td>Relatórios longos não são lidos por quem está em campo; informação se perde</td><td>Premissa de produto — motiva o formato em áudio, não é usada em cálculo</td></tr>
 </table></div>
 
-<blockquote>
-<p>### Nota metodológica — de onde vêm os ~40 minutos</p>
-</blockquote>
-<p>></p>
-<blockquote>
+<h3 id="nota-metodol-gica-de-onde-v-m-os-40-minu">Nota metodológica — de onde vêm os ~40 minutos</h3>
+
 <p>Este número sustenta todo o cálculo de valor da aba <strong>Métricas e ROI</strong>, então precisa ser declarado pelo que é: <strong>uma premissa de trabalho arbitrada, não uma medição.</strong></p>
-</blockquote>
+
+<p><strong>Não houve medição.</strong> Não há cronometragem em canteiro nem coleta com engenheiros em atividade.</p>
+
+<p><strong>Não existe estudo que isole exatamente esta tarefa.</strong> O dado da FMI/PlanGrid citado acima <strong>não serve</strong> para dimensioná-la, porque agrega a busca por normas, projetos executivos, especificações e relatórios diversos — a fatia correspondente ao diário de obras é desconhecida e pode ser bem menor. O que existe é um ponto de referência <strong>adjacente</strong>, sobre o qual o baseline foi construído em duas parcelas:</p>
+
+<div class="table-wrap"><table>
+<tr><th>Parcela da rotina diária</th><th>Estimativa</th><th>Base da estimativa</th></tr>
+<tr><td>Rotina do diário de obras — consolidar o que aconteceu no dia e registrar</td><td><strong>~30 min</strong></td><td>Prática recomendada de forma recorrente por fornecedores de RDO digital: reservar os últimos ~30 minutos do expediente para o preenchimento. <em>(Fonte comercial, não acadêmica.)</em></td></tr>
+<tr><td>Consultar a previsão dos próximos dias e correlacioná-la com as frentes ativas para planejar as atividades</td><td><strong>~10 min</strong></td><td><strong>Arbitrado</strong> — não há fonte</td></tr>
+<tr><td><strong>Total adotado como baseline</strong></td><td><strong>~40 min/dia útil</strong></td><td></td></tr>
+</table></div>
+
+<h3 id="fronteira-do-ganho-o-que-o-pipeline-efet">Fronteira do ganho — o que o pipeline efetivamente substitui</h3>
+
+<p>Esta distinção importa para não superestimar o retorno, e por isso vem antes dos cálculos:</p>
+
+<p>O pipeline <strong>não vai a campo e não observa a obra</strong>. A captura do que aconteceu — andar no canteiro, apurar efetivo, medir avanço, registrar ocorrências — continua sendo trabalho do engenheiro, e <strong>não é eliminada</strong>. O que a automação remove é a <strong>consolidação, a redação e o cruzamento</strong>: transformar apontamentos em um resumo legível, buscar a previsão, correlacionar chuva com frentes de serviço, derivar o plano do dia e formatar tudo para distribuição — entregue pronto, em texto e áudio.</p>
+
+<p>Portanto, <strong>quanto do baseline de 40 min é de fato recuperado depende de como a rotina do cliente está organizada</strong>. Se o preenchimento do RDO permanecer integralmente manual, o tempo efetivamente devolvido ao engenheiro se aproxima da faixa inferior da análise de sensibilidade (20 min/dia) em vez dos 40 min cheios. Essa é precisamente a razão de a aba <strong>Métricas e ROI</strong> apresentar o retorno em uma matriz de cenários, e não em um número único.</p>
+
+<p><strong>Como o documento lida com a incerteza.</strong> Em vez de tratar o baseline como constante, a aba <strong>Métricas e ROI</strong> o trata como <strong>variável</strong>: a análise de sensibilidade recalcula payback e ROI para <strong>20, 30 e 40 min/dia</strong>, e o retorno permanece positivo no primeiro ano em <strong>8 das 9 combinações</strong> testadas. A conclusão econômica do projeto <strong>não depende de acreditar nos 40 minutos</strong>.</p>
 <p>></p>
-<blockquote>
-<p><strong>O que ele não é:</strong> não houve cronometragem em canteiro, não há coleta com engenheiros em atividade, e não existe estudo que isole exatamente esta tarefa (reler os apontamentos recentes + consultar a previsão + redigir o plano do dia).</p>
-</blockquote>
-<p>></p>
-<blockquote>
-<p><strong>Por que 40 minutos:</strong> o valor foi fixado abaixo do único dado externo comparável disponível — as <strong>5,5 h/semana por pessoa</strong> que o estudo <em>Construction Disconnected</em> (FMI/PlanGrid, 2018) atribui à busca de informação de projeto, equivalentes a <strong>~66 min por dia útil</strong>. A tarefa tratada aqui é um subconjunto dessa atividade, logo um valor menor é o que faz sentido. Os 40 min são, portanto, <strong>uma escolha conservadora dentro de um envelope observado</strong>, e não um número inventado sem referência — mas também não são um número medido.</p>
-</blockquote>
-<p>></p>
-<blockquote>
-<p><strong>Como o documento lida com isso:</strong> em vez de tratar o baseline como constante, a aba <strong>Métricas e ROI</strong> o trata como <strong>variável</strong>. A análise de sensibilidade recalcula payback e ROI para <strong>20, 30 e 40 min/dia</strong>, e o retorno permanece positivo no primeiro ano em <strong>8 das 9 combinações</strong> testadas. Ou seja: a conclusão econômica do projeto <strong>não depende de acreditar nos 40 minutos</strong>.</p>
-</blockquote>
 
 <hr>
 
@@ -1340,8 +1356,8 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <p>></p>
 <blockquote>
 <p>- <strong>n = 3 rodadas por combinação componente × payload.</strong> É amostra pequena: suficiente para dimensionar ordens de grandeza e identificar o gargalo dominante, <strong>insuficiente</strong> para estimar caudas de distribuição ou percentis com confiança. Onde este documento afirma "média", leia "média de três medições" — a mesma ressalva de amostra que a aba Métricas e ROI aplica ao intervalo de Wilson vale aqui.</p>
-<p>- <strong>A coluna <code>RAM MB</code> é ocupação total do sistema, não do processo.</strong> Os ~14–15 GB reportados nas linhas do Ollama e do TTS são a memória em uso na máquina inteira durante a medição, não o consumo do modelo isolado — o que explica por que aparecem valores acima dos 6 GB de VRAM da GPU. Serve para mostrar <strong>pressão de memória durante a inferência</strong>, não para dimensionar o modelo.</p>
-<p>- <strong>Ambiente:</strong> notebook com GTX 1660 Ti (6 GB VRAM), execução local, rede residencial. Sem isolamento de carga: outros processos do sistema operacional estavam ativos.</p>
+<p>- <strong>A coluna <code>RAM MB</code> é ocupação total do sistema, não do processo.</strong> Os ~14–15 GB reportados nas linhas do Ollama e do TTS são a memória em uso na máquina inteira durante a medição, não o consumo do modelo isolado — o que explica por que aparecem valores acima dos 6 GB de VRAM da GPU. Com os <strong>32 GB de RAM</strong> da máquina de referência, esse patamar representa pouco menos da metade da capacidade total — folga confortável, não saturação. Serve para mostrar a ordem de grandeza do offloading para RAM/CPU quando o modelo excede a VRAM, não um sinal de risco de memória.</p>
+<p>- <strong>Ambiente:</strong> notebook com GTX 1660 Ti (6 GB VRAM), 32 GB RAM, execução local, rede residencial. Sem isolamento de carga: outros processos do sistema operacional estavam ativos.</p>
 </blockquote>
 
 <h2 id="resumo-por-componente">Resumo por Componente</h2>
@@ -1595,13 +1611,13 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 
 <div class="table-wrap"><table>
 <tr><th>Cenário</th><th>Tempo de consolidação</th><th>Fonte</th></tr>
-<tr><td>Manual (engenheiro relendo o diário + clima, por dia)</td><td><strong>~40 min</strong> (2.400 s)</td><td>⚠️ <strong>Premissa arbitrada, não medida</strong> — fixada abaixo dos ~66 min/dia útil que o estudo FMI/PlanGrid (2018) atribui à busca de informação de projeto. Nota metodológica completa na aba Diagnóstico e Objetivos</td></tr>
+<tr><td>Manual (rotina do diário + consulta e correlação do clima, por dia)</td><td><strong>~40 min</strong> (2.400 s)</td><td>⚠️ <strong>Premissa composta</strong>: ~30 min da rotina do RDO (referência setorial) + ~10 min arbitrados de consulta e correlação climática. Ver nota metodológica e a fronteira do ganho na aba Diagnóstico e Objetivos; tratada como variável na análise de sensibilidade</td></tr>
 <tr><td>Automatizado (pipeline)</td><td><strong>3,5 min</strong> (208 s, mediana P50)</td><td>Medido (n = 9)</td></tr>
 <tr><td><strong>Redução</strong></td><td><strong>−91,3%</strong></td><td>≈ <strong>11,5× mais rápido</strong></td></tr>
 </table></div>
 
 <blockquote>
-<p><strong>A premissa mais sensível do documento é o baseline de 40 minutos</strong>, não a latência medida — e ela é <strong>arbitrada, não medida</strong>. Se o tempo manual real for de 20 minutos, o ganho cai para ~5,8× e o valor anual gerado cai pela metade, sem ainda assim inverter a conclusão econômica (ver a análise de sensibilidade adiante). É justamente por não ser um número apurado que ele entra na matriz de sensibilidade como variável, em vez de ser tratado como dado.</p>
+<p><strong>A premissa mais sensível do documento é o baseline de 40 minutos</strong>, não a latência medida — e ela é <strong>composta a partir de uma referência setorial adjacente, não medida diretamente</strong>. Soma-se a isso a fronteira do ganho: parte dessa rotina (a captura do dado em campo) <strong>não é substituída</strong> pelo pipeline, o que puxa o tempo efetivamente recuperado para baixo do teto de 40 min. Se o tempo manual real for de 20 minutos, o ganho cai para ~5,8× e o valor anual gerado cai pela metade, sem ainda assim inverter a conclusão econômica (ver a análise de sensibilidade adiante). É justamente por não ser um número apurado que ele entra na matriz de sensibilidade como variável, em vez de ser tratado como dado.</p>
 </blockquote>
 
 <hr>
@@ -1628,7 +1644,7 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 <tr><td>Máquina ligada e SO saudável no gatilho</td><td>99,5%</td><td>Risco de a máquina estar suspensa/desligada às 06:30 (ver "O risco dominante", a seguir)</td></tr>
 <tr><td>Energia elétrica durante a janela (~4 min)</td><td>99,9%</td><td>DEC nacional ANEEL ≈ 10–13 h/ano de interrupção (~0,12% do tempo); janela curta. <strong>Em notebook, a bateria atua como no-break</strong></td></tr>
 <tr><td>Internet disponível</td><td>99,5%</td><td>Banda larga residencial; janela curta</td></tr>
-<tr><td>Compute de IA sem crash/OOM (Ollama+TTS)</td><td>99,0%</td><td>Maior risco real: RAM ~15 GB e CPU ~99,8% no pico (ver aba Testes de Stress)</td></tr>
+<tr><td>Compute de IA sem crash/OOM (Ollama+TTS)</td><td>99,0%</td><td>Risco vem da <strong>CPU a ~99,8% no pico</strong> (offloading do modelo de 14B), não da RAM — com 32 GB no total, os ~15 GB usados por Ollama+TTS deixam folga confortável (ver aba Testes de Stress)</td></tr>
 <tr><td>Ao menos 1 canal entrega (Telegram <strong>ou</strong> E-mail)</td><td>99,95%</td><td>2 canais independentes + <em>retry</em> com <em>backoff</em> exponencial</td></tr>
 </table></div>
 
@@ -1928,7 +1944,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <p>Bons dados contam uma história com começo, meio e fim — e a do Assistente de Obra IA começa por um número simples, ainda que estimado: <strong>cerca de 40 minutos por dia, todo dia útil, para cada obra.</strong></p>
 
-<p><strong>O problema.</strong> A construção civil é <strong>um dos setores menos digitalizados</strong> do índice da McKinsey (2017) e, no Brasil, erguer um prédio residencial padrão leva em média <strong>mais do que o dobro</strong> do tempo que poderia levar (Deloitte/Fiesp, 2023). No dia a dia, isso se traduz numa tarefa concreta: reler o diário de obras e cruzá-lo manualmente com a previsão do tempo antes de decidir se pode concretar, pintar ou impermeabilizar — decisões que as próprias normas técnicas condicionam ao clima previsto (NBR 14931:2023; ABRACO RP PAC-001). É um trabalho repetitivo que, pela correria do canteiro, acaba negligenciado, e cujo custo em tempo tem ordem de grandeza conhecida: o estudo FMI/PlanGrid (2018) apurou 5,5 h/semana por pessoa apenas procurando dados de projeto. O resultado é concretagem em dia de chuva, retrabalho e decisões "no escuro".</p>
+<p><strong>O problema.</strong> A construção civil é <strong>um dos setores menos digitalizados</strong> do índice da McKinsey (2017) e, no Brasil, erguer um prédio residencial padrão leva em média <strong>mais do que o dobro</strong> do tempo que poderia levar (Deloitte/Fiesp, 2023). No dia a dia, isso se traduz numa tarefa concreta: reler o diário de obras e cruzá-lo manualmente com a previsão do tempo antes de decidir se pode concretar, pintar ou impermeabilizar — decisões que as próprias normas técnicas condicionam ao clima previsto (NBR 14931:2023; ABRACO RP PAC-001). É um trabalho repetitivo que, pela correria do canteiro, acaba negligenciado, e cuja categoria de custo é reconhecida no setor: o estudo FMI/PlanGrid (2018) apurou 5,5 h/semana por pessoa procurando informação de projeto em geral — normas, projetos, relatórios —, da qual a consulta ao diário é uma fatia. O resultado é concretagem em dia de chuva, retrabalho e decisões "no escuro".</p>
 
 <p><strong>A solução e a prova.</strong> O pipeline automatiza esse cruzamento e entrega o relatório em texto e áudio — e os dados mostram que funciona. A latência mediana é de <strong>3,5 minutos</strong> ponta a ponta, cerca de <strong>11× mais rápido</strong> que os ~40 minutos manuais, medida em 9 execuções reais com 88,9% dentro do SLA de 5 minutos. Desse tempo, ~85% é a IA local (LLM + TTS): não é um defeito, e sim o preço de não depender de nuvem paga e manter os dados da obra dentro de casa. A confiabilidade modelada é de <strong>~97,9% por execução</strong> — o equivalente a ~247 de 252 relatórios entregues por ano (dias úteis), sendo que a falha de um dia é naturalmente coberta pelo relatório do dia seguinte. E o custo por relatório é de <strong>R$ 0</strong>, já que toda a IA roda localmente. Em resumo: o que se estima custar 40 minutos do dia passou a custar 3,5 minutos medidos e zero reais.</p>
 

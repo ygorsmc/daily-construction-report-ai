@@ -18,11 +18,11 @@ Três decisões recorrentes de uma obra dependem, ao mesmo tempo, **do que já a
 
 O insumo dessas decisões existe e é formalizado: em obra pública, a **Lei nº 14.133/2021 (art. 117, § 1º)** determina que o fiscal do contrato anote "em registro próprio" todas as ocorrências da execução — o diário de obra. *(Ressalva de atualidade: a exigência do **Livro de Ordem** pelo sistema CONFEA/CREA foi **revogada em fevereiro de 2023**; o registro diário permanece por força contratual e, na obra pública, por força da Lei de Licitações.)*
 
-**O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.** A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é mensurável: o estudo *Construction Disconnected* (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou **5,5 horas por semana por pessoa apenas procurando dados de projeto** — algo em torno de 66 minutos por dia útil.
+**O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.** A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é reconhecido e quantificado: o estudo *Construction Disconnected* (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou **5,5 horas por semana por pessoa apenas procurando dados de projeto**. Esse número agrega a busca por normas, projetos, especificações e relatórios diversos — a consulta ao diário é só uma fatia dele —, então ele estabelece que **o problema existe**, sem dimensionar a tarefa específica que este pipeline automatiza.
 
 Este pipeline elimina esse garimpo para o caso específico do planejamento diário: cruza sozinho o diário de obras com a previsão do tempo, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.
 
-> **Sobre o baseline de ~40 minutos/dia** usado nos cálculos de ganho e ROI: é uma **premissa de trabalho arbitrada**, não uma medição — ver a nota metodológica na aba *Diagnóstico e Objetivos* do portal, e a análise de sensibilidade em *Métricas e ROI*, que recalcula o retorno para 20, 30 e 40 min/dia.
+> **Sobre o baseline de ~40 minutos/dia** usado nos cálculos de ganho e ROI: compõe-se de **~30 min da rotina do diário de obras** (prática recomendada por fornecedores de RDO digital) mais **~10 min arbitrados** para consultar a previsão e correlacioná-la com as frentes ativas. Vale a fronteira: o pipeline **não captura o dado em campo** — ele substitui a consolidação, a redação e o cruzamento com o clima. A nota metodológica na aba *Diagnóstico e Objetivos* detalha isso, e a análise de sensibilidade em *Métricas e ROI* recalcula o retorno para 20, 30 e 40 min/dia.
 
 ---
 
@@ -73,7 +73,7 @@ Detalhamento completo (estatística descritiva, modelo de confiabilidade, paybac
 
 | Componente | Especificações / Setup | Notas |
 |---|---|---|
-| **Hardware de referência** | Notebook com **GPU GTX 1660 Ti (6 GB VRAM)**, 16 GB RAM | Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B **excede** os 6 GB e usa *offloading* para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n. |
+| **Hardware de referência** | Notebook com **GPU GTX 1660 Ti (6 GB VRAM)**, 32 GB RAM | Máquina em que o projeto foi desenvolvido e medido. O modelo de 14B **excede** os 6 GB e usa *offloading* para RAM/CPU — decisão consciente, ver aba Arquitetura e n8n. |
 | Ollama | 0.21 (`qwen2.5:14b`) | Modelo de homologação (testado). O sistema é **agnóstico**: basta alterar o `.env` para usar outros modelos (Llama 3, Phi-3, etc). |
 | Node.js & n8n | 18+ / `npm i -g n8n` | Host do orquestrador. |
 | Python | 3.12 (`.venv` isolado) | Motor de áudio (Kokoro) + microsserviço de e-mail. |
