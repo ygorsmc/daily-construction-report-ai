@@ -19,6 +19,9 @@ data/output/*.csv
 # n8n
 .n8n/
 
+# Build do MkDocs
+site/
+
 # Fontes de documentação (md/pptx/docx/imagens usados para gerar documentacao.html;
 # não fazem parte da topologia enviada, só o build_docs_html.py os lê localmente)
 docs_src/
