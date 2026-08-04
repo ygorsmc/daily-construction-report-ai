@@ -165,7 +165,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
         <h1 class="hero-title">Relatório Diário Automatizado de Obra</h1>
         <p class="hero-pitch">Pipeline local automatizado que gera, todo dia útil às 06:30, um relatório executivo de progresso de obra — cruzando o diário de obras e a previsão do tempo com IA rodando <em>on-premise</em>, síntese de voz e entrega multicanal (Telegram + e-mail), sem intervenção manual.</p>
         <div class="hero-chips"><span class="hero-chip">n8n</span><span class="hero-chip">Ollama · Qwen2.5:14b</span><span class="hero-chip">Kokoro TTS</span><span class="hero-chip">Telegram</span><span class="hero-chip">Gmail SMTP</span></div>
-        <div class="hero-role"><span class="tick"></span>Ygor Carvalho — engenheiro civil, ex-engenheiro residente, em transição para Engenharia de IA · concepção, arquitetura e automação</div>
+        <div class="hero-role"><span class="tick"></span>Ygor Carvalho — engenheiro civil, em transição para Engenharia de IA · concepção, arquitetura e automação</div>
         <div class="hero-stats">
             <div class="hero-stat"><div class="hero-statnum">3,5<span class="u">min</span></div><div class="hero-statlab">execução ponta a ponta (P50)</div></div>
             <div class="hero-stat"><div class="hero-statnum">R$ 0</div><div class="hero-statlab">custo de IA por relatório</div></div>
@@ -202,6 +202,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
         <div class="tab-dropdown">
 <a href="#contexto-do-setor-da-constru-o-civil" class="dropdown-link" data-page="diagnostico">Contexto do Setor da Construção Civil</a>
 <a href="#o-problema-real" class="dropdown-link" data-page="diagnostico">O Problema Real</a>
+<a href="#o-dado-existe-o-gargalo-consult-lo" class="dropdown-link" data-page="diagnostico">O dado existe — o gargalo é consultá-lo</a>
 <a href="#fatores-contribuintes" class="dropdown-link" data-page="diagnostico">Fatores Contribuintes</a>
 <a href="#consequ-ncias-estimadas" class="dropdown-link" data-page="diagnostico">Consequências Estimadas</a>
 <a href="#a-solu-o-relat-rio-di-rio-automatizado" class="dropdown-link" data-page="diagnostico">A Solução: Relatório Diário Automatizado</a>
@@ -293,7 +294,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <a href="#retorno-para-o-cliente-payback-e-roi-" class="dropdown-link" data-page="metricas">Retorno para o cliente (payback e ROI)</a>
 <a href="#viabilidade-econ-mica-da-solu-o" class="dropdown-link" data-page="metricas">Viabilidade econômica da solução</a>
 <a href="#propostas-de-melhoria-roadmap-priorizado" class="dropdown-link" data-page="metricas">Propostas de Melhoria (Roadmap Priorizado)</a>
-<a href="#prioridade-0-corre-es-de-defeito-n-o-s-o" class="dropdown-link" data-page="metricas">Prioridade 0 — Correções de defeito (não são melhorias)</a>
+<a href="#prioridade-0-lacunas-conhecidas-precedem" class="dropdown-link" data-page="metricas">Prioridade 0 — Lacunas conhecidas (precedem qualquer otimização)</a>
 <a href="#prioridade-1-confiabilidade-do-em-host-e" class="dropdown-link" data-page="metricas">Prioridade 1 — Confiabilidade do host (maior risco, baixo esforço)</a>
 <a href="#prioridade-2-lat-ncia-alto-impacto-t-cni" class="dropdown-link" data-page="metricas">Prioridade 2 — Latência (alto impacto técnico)</a>
 <a href="#prioridade-3-escalabilidade-neg-cio" class="dropdown-link" data-page="metricas">Prioridade 3 — Escalabilidade & negócio</a>
@@ -339,18 +340,30 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <p><strong>Portal do projeto:</strong> <https://ygorsmc.github.io/daily-construction-report-ai/></p>
 
 <blockquote>
-<p><strong>Sobre o autor:</strong> Ygor Carvalho, engenheiro civil com atuação como engenheiro residente, em transição para Engenharia de IA. O diagnóstico, o baseline de ~40 minutos/dia e as decisões de escopo deste projeto vêm da rotina real de preencher e consultar diário de obras em canteiro.</p>
+<p><strong>Sobre o autor:</strong> Ygor Carvalho, engenheiro civil, em transição para Engenharia de IA. O diagnóstico deste projeto foi construído a partir de normas técnicas, exigências legais e literatura setorial — as fontes estão citadas ao longo da documentação.</p>
 </blockquote>
 
 <hr>
 
 <h2 id="o-problema-real">O Problema Real</h2>
 
-<p>O engenheiro responsável por uma obra precisa, diariamente, decidir <strong>quando concretar</strong>, <strong>quando pintar ou impermeabilizar</strong> e <strong>que frentes de serviço priorizar</strong>. Para isso ele releria o diário de obras dos últimos dias, consultaria a previsão do tempo e cruzaria as duas coisas mentalmente — um processo repetitivo, manual e, pela correria do canteiro, frequentemente negligenciado.</p>
+<p>Três decisões recorrentes de uma obra dependem, ao mesmo tempo, <strong>do que já aconteceu no canteiro</strong> e <strong>do que o tempo vai fazer nos próximos dias</strong>:</p>
 
-<p>Na minha experiência como engenheiro residente, essa compilação consome cerca de <strong>40 minutos por dia</strong>. Quando ela é pulada, as decisões saem sem dados atualizados: concretagem em dia de chuva, retrabalho, paralisação evitável.</p>
+<ul>
+<li><strong>Quando concretar.</strong> A ABNT NBR 14931:2023 condiciona a concretagem sob chuva: precipitação fraca (abaixo de 2,5 mm/h, Tabela 7) dispensa medidas extras, mas acima disso a água interfere na superfície do concreto e a norma exige proteção — sob risco de delaminação, perda de resistência e fissuração.</li>
+<li><strong>Quando pintar ou impermeabilizar.</strong> A recomendação prática ABRACO RP PAC-001 é explícita: não se aplica pintura sob chuva, neblina ou com umidade relativa acima de 85% — <strong>nem quando houver expectativa de que esse valor seja atingido</strong>. Ou seja, a regra não pede o clima de agora; pede a previsão.</li>
+<li><strong>Que frente de serviço priorizar.</strong> A alocação de equipes depende do estágio de cada frente (registrado no diário) cruzado com a janela de tempo seco disponível.</li>
+</ul>
 
-<p>Este pipeline faz esse cruzamento sozinho, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.</p>
+<p>O insumo dessas decisões existe e é formalizado: em obra pública, a <strong>Lei nº 14.133/2021 (art. 117, § 1º)</strong> determina que o fiscal do contrato anote "em registro próprio" todas as ocorrências da execução — o diário de obra. <em>(Ressalva de atualidade: a exigência do <strong>Livro de Ordem</strong> pelo sistema CONFEA/CREA foi <strong>revogada em fevereiro de 2023</strong>; o registro diário permanece por força contratual e, na obra pública, por força da Lei de Licitações.)</em></p>
+
+<p><strong>O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.</strong> A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é mensurável: o estudo <em>Construction Disconnected</em> (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou <strong>5,5 horas por semana por pessoa apenas procurando dados de projeto</strong> — algo em torno de 66 minutos por dia útil.</p>
+
+<p>Este pipeline elimina esse garimpo para o caso específico do planejamento diário: cruza sozinho o diário de obras com a previsão do tempo, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.</p>
+
+<blockquote>
+<p><strong>Sobre o baseline de ~40 minutos/dia</strong> usado nos cálculos de ganho e ROI: é uma <strong>premissa de trabalho arbitrada</strong>, não uma medição — ver a nota metodológica na aba <em>Diagnóstico e Objetivos</em> do portal, e a análise de sensibilidade em <em>Métricas e ROI</em>, que recalcula o retorno para 20, 30 e 40 min/dia.</p>
+</blockquote>
 
 <hr>
 
@@ -394,7 +407,7 @@ footer.site-footer{background:var(--ink);color:#B8C4D4;margin-top:64px;border-to
 <div class="table-wrap"><table>
 <tr><th>Métrica</th><th>Valor</th><th>Origem</th></tr>
 <tr><td>Latência mediana ponta a ponta (P50)</td><td><strong>3,5 min</strong></td><td>9 execuções reais medidas</td></tr>
-<tr><td>Ganho sobre o processo manual</td><td><strong>≈ 11×</strong> (−91%)</td><td>vs. ~40 min de compilação manual</td></tr>
+<tr><td>Ganho sobre o processo manual</td><td><strong>≈ 11×</strong> (−91%)</td><td>vs. baseline arbitrado de ~40 min de compilação manual</td></tr>
 <tr><td>Aderência ao SLA (< 300 s)</td><td><strong>8 de 9 (88,9%)</strong></td><td>uma execução estourou o teto em 8 s</td></tr>
 <tr><td>Confiabilidade modelada por execução</td><td><strong>≈ 97,9%</strong></td><td>produto das disponibilidades das dependências</td></tr>
 <tr><td>Custo de IA por relatório</td><td><strong>R$ 0</strong></td><td>inferência 100% local, sem API paga</td></tr>
@@ -542,29 +555,58 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 
 <h2 id="o-problema-real">O Problema Real</h2>
 
-<p>O engenheiro responsável por uma obra precisa, diariamente, tomar decisões operacionais como:</p>
+<p>Três decisões operacionais recorrentes de uma obra dependem, simultaneamente, <strong>do que já aconteceu no canteiro</strong> e <strong>da previsão do tempo</strong>. Não é uma percepção genérica: em cada uma delas há norma técnica ou recomendação prática que condiciona a execução ao clima.</p>
 
-<ul>
-<li><strong>Quando concretar?</strong> — Concretagem em dia chuvoso compromete a cura e gera retrabalho.</li>
-<li><strong>Quando pintar ou impermeabilizar?</strong> — Pintura e impermeabilização externas exigem dias secos consecutivos.</li>
-<li><strong>Que frentes de serviço priorizar?</strong> — A alocação de equipes depende do que aconteceu nos últimos dias e do que está por vir.</li>
-</ul>
+<div class="table-wrap"><table>
+<tr><th>Decisão</th><th>Por que depende do clima</th><th>Referência normativa</th></tr>
+<tr><td><strong>Quando concretar?</strong></td><td>A concretagem sob chuva é condicionada: precipitação <strong>fraca (< 2,5 mm/h)</strong> dispensa medidas extras, mas acima disso a água interfere na superfície do concreto e passa a ser exigida proteção — sob risco de delaminação, perda de resistência (fck) e fissuração.</td><td>ABNT <strong>NBR 14931:2023</strong>, Tabela 7 (revisão que passou a tratar explicitamente a concretagem em períodos chuvosos)</td></tr>
+<tr><td><strong>Quando pintar ou impermeabilizar?</strong></td><td>Não se aplica pintura sob chuva, neblina ou com <strong>umidade relativa acima de 85%</strong> — e, textualmente, <strong>"nem quando houver expectativa de que esse valor seja atingido"</strong>. A regra não pede o clima do momento: pede a previsão.</td><td><strong>ABRACO RP PAC-001</strong> (Recomendação Prática — Pintura Anticorrosiva); ABNT <strong>NBR 9574</strong> para execução de impermeabilização</td></tr>
+<tr><td><strong>Que frentes priorizar?</strong></td><td>A alocação de equipes depende do estágio de cada frente — informação que está no diário — cruzado com a janela de dias secos disponível.</td><td>Decorrência operacional das duas anteriores</td></tr>
+</table></div>
 
-<p>Para tomar essas decisões, o responsável precisa:</p>
+<p>Para tomar essas decisões, o responsável precisaria:</p>
 
 <ul class="ordered">
-<li><strong>Reler o diário de obras</strong> dos últimos dias para lembrar o que aconteceu (paralisações, avanços, problemas de material, etc.).</li>
-<li><strong>Consultar a previsão do tempo (OpenWeather)</strong> para os próximos 5 dias.</li>
-<li><strong>Cruzar mentalmente</strong> essas duas informações e decidir o plano de ação.</li>
+<li><strong>Reler o diário de obras</strong> dos últimos dias para recuperar o que aconteceu (paralisações, avanços, problemas de material, etc.).</li>
+<li><strong>Consultar a previsão do tempo</strong> para os próximos 5 dias.</li>
+<li><strong>Cruzar</strong> essas duas informações e decidir o plano de ação.</li>
 </ul>
 
-<p>Esse processo, embora simples conceitualmente, é <strong>repetitivo, manual e frequentemente negligenciado</strong> pela correria do canteiro. O resultado: decisões são tomadas sem dados atualizados, gerando paralisações evitáveis, retrabalho e atrasos.</p>
+<h3 id="o-dado-existe-o-gargalo-consult-lo">O dado existe — o gargalo é consultá-lo</h3>
+
+<p>O registro diário não é opcional em obra pública: a <strong>Lei nº 14.133/2021 (art. 117, § 1º)</strong> determina que o fiscal do contrato anote <strong>"em registro próprio"</strong> todas as ocorrências relacionadas à execução, determinando o que for necessário para regularizar faltas ou defeitos. Em obra privada, o diário permanece como prática contratual e prova documental em disputas.</p>
+
+<blockquote>
+<p><strong>Ressalva de atualidade:</strong> a obrigatoriedade do <strong>Livro de Ordem</strong> no âmbito do sistema CONFEA/CREA (Resolução nº 1.024/2009, atualizada pela nº 1.094/2017) foi <strong>revogada pelo Plenário do Confea em fevereiro de 2023</strong>, a pedido da CBIC, por dificuldade dos CREAs em analisar os livros. Portanto, <strong>não é correto afirmar hoje que o diário de obras é obrigatório por resolução do conselho profissional</strong> — a obrigatoriedade que subsiste é a da obra pública (Lei de Licitações) e a de natureza contratual.</p>
+</blockquote>
+
+<p>O problema, então, <strong>não é a ausência do dado — é que ele não é consultado na hora de decidir.</strong> Duas evidências setoriais sustentam isso:</p>
+
+<ul>
+<li><strong>O diário é frequentemente subutilizado.</strong> A literatura setorial (institutos de ensino em engenharia de custos e fornecedores de RDO digital) descreve como comum que, na rotina acelerada do canteiro, o diário seja negligenciado ou preenchido de forma superficial — perdendo valor tanto como ferramenta de controle quanto como prova documental. <em>(Ressalva de qualidade de fonte: são publicações setoriais e de fornecedores, não estudos acadêmicos revisados por pares.)</em></li>
+<li><strong>Garimpar informação de projeto custa tempo mensurável.</strong> O estudo <strong>Construction Disconnected</strong> (FMI Corporation + PlanGrid, abril de 2018), com <strong>~600 profissionais</strong> do setor (500 nos EUA e 99 em Austrália, Nova Zelândia, Reino Unido e Canadá), apurou mais de <strong>14 horas semanais por pessoa</strong> em atividades não-produtivas, das quais <strong>5,5 horas por semana são gastas apenas procurando dados de projeto</strong> — cerca de <strong>66 minutos por dia útil</strong>. <em>(Ressalva de aplicabilidade: amostra majoritariamente norte-americana e atividade mais ampla do que a tarefa específica tratada aqui; serve como ordem de grandeza, não como medida do caso brasileiro.)</em></li>
+</ul>
+
+<p>O resultado prático: decisões tomadas sem dados atualizados, gerando paralisações evitáveis, retrabalho e atrasos.</p>
+
+<blockquote>
+<p><strong>Fontes desta seção:</strong></p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>- ABNT NBR 14931:2023 — <em>Estruturas de concreto — Execução</em>. A revisão de 2023 passou a tratar explicitamente a concretagem em períodos chuvosos (Tabela 7, classificação de intensidade de precipitação).</p>
+<p>- ABNT NBR 9574:2008 — <em>Execução de impermeabilização</em>.</p>
+<p>- ABRACO — <em>Recomendação Prática RP PAC-001: Pintura Anticorrosiva</em>. Disponível em: https://abraco.org.br/src/uploads/2017/12/RECOMENDAO-PRTICA.pdf</p>
+<p>- <strong>Lei nº 14.133/2021</strong>, art. 117, § 1º — Lei de Licitações e Contratos Administrativos.</p>
+<p>- Conselho Federal de Engenharia e Agronomia — <em>Plenário do Confea revoga Livro de Ordem de obras e serviços</em> (fev./2023). Disponível em: https://www.confea.org.br/plenario-do-confea-revoga-livro-de-ordem-de-obras-e-servicos</p>
+<p>- FMI Corporation & PlanGrid — <em>Construction Disconnected</em> (2018). Disponível em: http://pg.plangrid.com/rs/572-JSV-775/images/Construction_Disconnected.pdf</p>
+</blockquote>
 
 <hr>
 
 <h2 id="fatores-contribuintes">Fatores Contribuintes</h2>
 
-<p>Os cinco fatores abaixo são o diagnóstico do porquê o cruzamento diário entre diário de obras e clima não acontece na prática. Não se trata de uma análise formal de causa-raiz (Ishikawa ou 5 Porquês) — é o levantamento dos fatores que sustentam o problema, observados em canteiro.</p>
+<p>Os cinco fatores abaixo são o diagnóstico do porquê o cruzamento diário entre diário de obras e clima não acontece na prática. Não se trata de uma análise formal de causa-raiz (Ishikawa ou 5 Porquês) — é o levantamento dos fatores que sustentam o problema, derivados das evidências setoriais citadas acima e do desenho normativo das decisões afetadas pelo clima.</p>
 
 <div class="table-wrap"><table>
 <tr><th>#</th><th>Fator</th><th>Descrição</th></tr>
@@ -580,19 +622,31 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 <h2 id="consequ-ncias-estimadas">Consequências Estimadas</h2>
 
 <div class="table-wrap"><table>
-<tr><th>Consequência</th><th>Impacto estimado</th><th>Origem da estimativa</th></tr>
-<tr><td>Decisões sem dados atualizados</td><td>Concretagens em dias chuvosos, pintura com chuva prevista, alocação de equipe desnecessária</td><td>Observação em canteiro (qualitativo)</td></tr>
-<tr><td>Tempo gasto compilando informações manualmente</td><td><strong>~40 minutos por dia</strong> do engenheiro residente (~3,5 h/semana)</td><td><strong>Experiência do autor como engenheiro residente</strong> — ver nota abaixo</td></tr>
-<tr><td>Retrabalho por falta de planejamento climático</td><td>15–20% das jornadas improdutivas por condições meteorológicas não previstas</td><td><strong>Hipótese a validar</strong> — sem fonte primária; não é usada em nenhum cálculo de ROI</td></tr>
-<tr><td>Baixa taxa de leitura pelos stakeholders</td><td>Gerentes em campo não leem relatórios longos; informação se perde</td><td>Observação em canteiro (qualitativo)</td></tr>
+<tr><th>Consequência</th><th>Impacto estimado</th><th>Origem / status da estimativa</th></tr>
+<tr><td>Decisões sem dados atualizados</td><td>Concretagens em dias chuvosos, pintura com chuva prevista, alocação de equipe desnecessária</td><td><strong>Decorrência das normas citadas acima</strong> (NBR 14931, ABRACO RP PAC-001): são os desvios que elas existem para evitar</td></tr>
+<tr><td>Tempo gasto compilando informações manualmente</td><td><strong>~40 minutos por dia útil</strong> (~3,5 h/semana)</td><td>⚠️ <strong>Premissa arbitrada</strong> — não medida. Ver nota metodológica abaixo</td></tr>
+<tr><td>Retrabalho por falta de planejamento climático</td><td>15–20% das jornadas improdutivas por condições meteorológicas não previstas</td><td>⚠️ <strong>Hipótese a validar</strong> — sem fonte primária; <strong>não entra em nenhum cálculo</strong> deste documento</td></tr>
+<tr><td>Baixa taxa de leitura pelos stakeholders</td><td>Relatórios longos não são lidos por quem está em campo; informação se perde</td><td>Premissa de produto — motiva o formato em áudio, não é usada em cálculo</td></tr>
 </table></div>
 
 <blockquote>
-<p><strong>De onde vêm os ~40 minutos.</strong> Este é o número que sustenta todo o cálculo de valor da aba <strong>Métricas e ROI</strong>, então vale explicitar sua origem: é uma <strong>estimativa da minha própria rotina como engenheiro residente</strong>, preenchendo e reconsultando diário de obras em canteiro — tempo de reler os apontamentos dos últimos dias, abrir a previsão do tempo, cruzar as duas coisas e escrever o resumo. Não é um número medido com cronômetro nem extraído de estudo de terceiros, e é <strong>a premissa mais sensível do projeto</strong>: se o tempo real for 20 minutos, o valor gerado cai pela metade (a conclusão econômica, porém, se mantém — ver a análise de sensibilidade em Métricas e ROI). Assumi-lo como estimativa de campo é mais honesto do que atribuí-lo a uma fonte que não existe.</p>
+<p>### Nota metodológica — de onde vêm os ~40 minutos</p>
 </blockquote>
 <p>></p>
 <blockquote>
-<p>A linha dos <strong>15–20%</strong> é marcada explicitamente como hipótese: ela ilustra o tipo de perda que o sistema ataca, mas <strong>não entra em nenhuma conta</strong> deste documento.</p>
+<p>Este número sustenta todo o cálculo de valor da aba <strong>Métricas e ROI</strong>, então precisa ser declarado pelo que é: <strong>uma premissa de trabalho arbitrada, não uma medição.</strong></p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p><strong>O que ele não é:</strong> não houve cronometragem em canteiro, não há coleta com engenheiros em atividade, e não existe estudo que isole exatamente esta tarefa (reler os apontamentos recentes + consultar a previsão + redigir o plano do dia).</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p><strong>Por que 40 minutos:</strong> o valor foi fixado abaixo do único dado externo comparável disponível — as <strong>5,5 h/semana por pessoa</strong> que o estudo <em>Construction Disconnected</em> (FMI/PlanGrid, 2018) atribui à busca de informação de projeto, equivalentes a <strong>~66 min por dia útil</strong>. A tarefa tratada aqui é um subconjunto dessa atividade, logo um valor menor é o que faz sentido. Os 40 min são, portanto, <strong>uma escolha conservadora dentro de um envelope observado</strong>, e não um número inventado sem referência — mas também não são um número medido.</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p><strong>Como o documento lida com isso:</strong> em vez de tratar o baseline como constante, a aba <strong>Métricas e ROI</strong> o trata como <strong>variável</strong>. A análise de sensibilidade recalcula payback e ROI para <strong>20, 30 e 40 min/dia</strong>, e o retorno permanece positivo no primeiro ano em <strong>8 das 9 combinações</strong> testadas. Ou seja: a conclusão econômica do projeto <strong>não depende de acreditar nos 40 minutos</strong>.</p>
 </blockquote>
 
 <hr>
@@ -628,7 +682,7 @@ python3 scripts/stress_test.py --all --dry-run       # sem conexões reais
 </ul>
 
 <blockquote>
-<p><strong>Nota</strong>: os registros do diário de obras são simulados com 3 cenários de teste (rotina normal, chuva intensa e problema logístico) para validação do pipeline.</p>
+<p><strong>Nota</strong>: os registros do diário de obras são simulados — 15 apontamentos com datas fixas entre 06/04 e 20/04/2026, cobrindo 3 cenários de teste (rotina normal, chuva intensa e problema logístico) para validação reprodutível do pipeline.</p>
 </blockquote>
 
 <hr>
@@ -1160,11 +1214,11 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 </blockquote>
 <p>></p>
 <blockquote>
-<p><strong>1. O relatório mistura datas de meses diferentes — e isso é um bug real.</strong> No áudio e no print acima, o sistema apresenta como "ontem" um apontamento de <strong>20 de abril de 2026</strong>, enquanto o "hoje" da previsão do tempo é <strong>23 de junho</strong>. A causa está no nó <em>Consolidação de Dados</em>: ele seleciona o <strong>último registro anterior a hoje</strong>, sem verificar <strong>quão antigo</strong> ele é. A lógica de "pular fins de semana e feriados sem apontamento", descrita no nó 5, não tem limite superior — então, com uma base de teste desatualizada, ela alcança dois meses para trás e entrega o dado velho rotulado como "ontem".</p>
+<p><strong>1. As datas do relatório vêm da base de teste, não do calendário.</strong> No áudio e no print acima, o sistema apresenta como "ontem" um apontamento de <strong>20 de abril de 2026</strong>, enquanto o "hoje" da previsão do tempo é <strong>23 de junho</strong>. Isso é <strong>esperado neste ambiente</strong>: o diário usado é a <em>fixture</em> <code>registros_exemplo.json</code>, com 15 registros fixos entre 06/04 e 20/04/2026, criada para reproduzir três cenários controlados. Ela não avança com o calendário, então toda execução posterior a 21/04 seleciona 20/04 como último dia com apontamento. A previsão do tempo, essa sim, vem da API em tempo real — daí a distância entre as duas datas.</p>
 </blockquote>
 <p>></p>
 <blockquote>
-<p>Em produção o risco é concreto: se o engenheiro deixar de preencher o diário por uma semana, o sistema apresentará dado antigo como recente, <strong>com confiança e com sugestão de ação em cima disso</strong> — exatamente o cenário de "alucinação com consequência física" levantado na aba Ética e LGPD. A correção é uma <strong>guarda de frescor</strong> no nó de consolidação: se o último registro tiver mais de N dias (sugestão: 3 dias úteis), o relatório deve declarar explicitamente a defasagem em vez de tratá-la como "ontem", e a sugestão técnica deve ser suprimida ou marcada como não confiável. Está no roadmap como item de correção, não de melhoria.</p>
+<p>O ponto que <strong>de fato</strong> merece atenção é outro: o nó de consolidação não impõe <strong>limite de idade</strong> ao registro que seleciona. Isso é inócuo com dados de teste, mas em produção significa que um diário sem preenchimento há uma semana produziria um relatório apresentando dado velho como recente, com sugestão de ação em cima dele. A <strong>guarda de frescor</strong> que resolve isso está detalhada na aba <strong>Análise e Limitações</strong> e consta do roadmap.</p>
 </blockquote>
 <p>></p>
 <blockquote>
@@ -1254,19 +1308,21 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 
 <h3 id="aus-ncia-de-guarda-de-frescor-no-dado-de">Ausência de Guarda de Frescor no Dado de Entrada</h3>
 
-<p><strong>Risco (bug identificado na própria prova de conceito)</strong>: O nó <em>Consolidação de Dados</em> seleciona o <strong>último registro do diário anterior à data de hoje</strong>, sem verificar <strong>há quanto tempo</strong> esse registro foi feito. A regra existe para pular fins de semana e feriados sem apontamento, mas <strong>não tem limite superior</strong>: se o diário estiver desatualizado, o pipeline alcança semanas ou meses para trás e apresenta o dado antigo rotulado como "ontem".</p>
+<p><strong>Risco</strong>: O nó <em>Consolidação de Dados</em> seleciona o <strong>último registro do diário anterior à data de execução</strong>, sem verificar <strong>há quanto tempo</strong> esse registro foi feito. A regra existe para pular fins de semana e feriados sem apontamento — comportamento correto e desejado —, mas <strong>não tem limite superior</strong>. O pipeline não sabe distinguir "não há registro de ontem porque foi feriado" de "não há registro de ontem porque ninguém preencheu o diário há duas semanas": nos dois casos ele volta no tempo até achar algo e apresenta o que encontrar como o dia anterior.</p>
 
-<p>Isso não é hipótese — <strong>acontece na entrega demonstrada na aba Arquitetura e n8n</strong>, onde o relatório narra como "ontem" um apontamento de 20 de abril de 2026 e, no parágrafo seguinte, situa o "hoje" em 23 de junho. Dois meses de defasagem, apresentados com confiança e seguidos de uma sugestão técnica construída sobre eles.</p>
+<p><strong>Como isso ficou visível — e o que ele não significa.</strong> O relatório demonstrado na aba Arquitetura e n8n narra como "ontem" um apontamento de 20 de abril e situa o "hoje" em 23 de junho. <strong>Esse descompasso é um artefato do ambiente de teste, não um defeito em operação:</strong> a base <code>registros_exemplo.json</code> é uma <em>fixture</em> estática com 15 registros fixos entre 06/04 e 20/04/2026, construída para reproduzir três cenários controlados (rotina normal, chuva intensa e problema logístico). Datas fixas são exatamente o que se quer de uma base de teste — sem elas, os cenários não seriam reproduzíveis. Como a fixture não acompanha o calendário, <strong>qualquer execução posterior a 21/04 seleciona 20/04</strong>, e a distância cresce com o tempo. O pipeline fez precisamente o que foi programado para fazer.</p>
 
-<p><strong>Por que importa mais do que parece:</strong> o sistema não erra ao gerar o texto — ele erra ao <em>selecionar o dado</em>, e o LLM apenas narra fielmente o que recebeu. Nenhuma das mitigações de alucinação acima protege contra isso, porque o dado é legítimo, só está velho. Na prática, um engenheiro que passe uma semana sem preencher o diário receberia um plano de ação baseado em uma frente de serviço que já mudou — o cenário de "alucinação com consequência física" descrito na aba Ética e LGPD, com origem em dado e não em modelo.</p>
+<p><strong>O que o episódio de fato revela</strong> é uma lacuna de projeto que a base de teste apenas tornou observável: em produção, com um diário real, a mesma regra de seleção apresentaria um apontamento de uma semana atrás como se fosse de ontem, caso o engenheiro deixasse de preencher. E aí importa. O sistema não erraria ao gerar o texto — erraria ao <em>selecionar o dado</em>, e o LLM narraria fielmente o que recebeu. <strong>Nenhuma das mitigações de alucinação descritas acima protege contra isso</strong>, porque o dado é legítimo, apenas está vencido. O resultado seria um plano de ação construído sobre uma frente de serviço que já mudou — o cenário de "alucinação com consequência física" descrito na aba Ética e LGPD, com origem no dado e não no modelo.</p>
 
-<p><strong>Mitigação proposta (não implementada — item de correção no roadmap)</strong>:</p>
+<p><strong>Mitigação proposta (não implementada — item de roadmap)</strong>:</p>
 <ul class="ordered">
 <li><strong>Guarda de frescor no nó de consolidação</strong>: comparar a data do último registro com a data de execução. Se a defasagem exceder N dias úteis (sugestão: 3), <strong>não</strong> tratar o registro como "ontem".</li>
 <li><strong>Degradação explícita no relatório</strong>: nesse caso, o prompt deve receber a defasagem como dado (<code>"último apontamento: 12 dias atrás"</code>) e instruir o modelo a declará-la abertamente na abertura do relatório.</li>
 <li><strong>Supressão da sugestão técnica</strong>: com dado defasado, a seção de plano de ação deve ser substituída por um alerta de diário desatualizado — melhor não sugerir do que sugerir sobre base vencida.</li>
 <li><strong>Alerta ao responsável</strong>: reaproveitar o canal de notificação de erro já existente para avisar que o diário está sem preenchimento.</li>
 </ul>
+
+<p>Como efeito colateral bem-vindo, a guarda também resolve o incômodo da demonstração: com ela, uma execução sobre a fixture de abril passaria a <strong>declarar a defasagem</strong> em vez de silenciá-la.</p>
 
 <hr></div>
 </div>
@@ -1539,13 +1595,13 @@ Português brasileiro. Linguagem técnica, porém natural para locução.
 
 <div class="table-wrap"><table>
 <tr><th>Cenário</th><th>Tempo de consolidação</th><th>Fonte</th></tr>
-<tr><td>Manual (engenheiro relendo o diário + clima, por dia)</td><td><strong>~40 min</strong> (2.400 s)</td><td><strong>Estimativa da experiência do autor como engenheiro residente</strong> — premissa declarada, não medição de terceiros (ver aba Diagnóstico e Objetivos)</td></tr>
+<tr><td>Manual (engenheiro relendo o diário + clima, por dia)</td><td><strong>~40 min</strong> (2.400 s)</td><td>⚠️ <strong>Premissa arbitrada, não medida</strong> — fixada abaixo dos ~66 min/dia útil que o estudo FMI/PlanGrid (2018) atribui à busca de informação de projeto. Nota metodológica completa na aba Diagnóstico e Objetivos</td></tr>
 <tr><td>Automatizado (pipeline)</td><td><strong>3,5 min</strong> (208 s, mediana P50)</td><td>Medido (n = 9)</td></tr>
 <tr><td><strong>Redução</strong></td><td><strong>−91,3%</strong></td><td>≈ <strong>11,5× mais rápido</strong></td></tr>
 </table></div>
 
 <blockquote>
-<p><strong>A premissa mais sensível do documento é o baseline de 40 minutos</strong>, não a latência medida. Se o tempo manual real for de 20 minutos, o ganho cai para ~5,8× e o valor anual gerado cai pela metade — sem, ainda assim, inverter a conclusão econômica (ver a análise de sensibilidade adiante). Por isso a origem do número está declarada abertamente em vez de citada como se fosse dado de mercado.</p>
+<p><strong>A premissa mais sensível do documento é o baseline de 40 minutos</strong>, não a latência medida — e ela é <strong>arbitrada, não medida</strong>. Se o tempo manual real for de 20 minutos, o ganho cai para ~5,8× e o valor anual gerado cai pela metade, sem ainda assim inverter a conclusão econômica (ver a análise de sensibilidade adiante). É justamente por não ser um número apurado que ele entra na matriz de sensibilidade como variável, em vez de ser tratado como dado.</p>
 </blockquote>
 
 <hr>
@@ -1616,7 +1672,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 </blockquote>
 <p>></p>
 <blockquote>
-<p>- <strong>8,5 salários mínimos</strong> não é uma estimativa de mercado: é o <strong>salário mínimo profissional</strong> dos engenheiros previsto na <strong>Lei nº 4.950-A/1966</strong>, que fixa 6 salários mínimos para jornada de 6 horas e <strong>8,5 salários mínimos para jornada de 8 horas</strong> — piso legal fiscalizado pelo sistema CONFEA/CREA. Usar o piso legal, e não uma pesquisa salarial, torna a premissa verificável e conservadora (a remuneração praticada para engenheiro residente com experiência costuma ser superior).</p>
+<p>- <strong>8,5 salários mínimos</strong> não é uma estimativa de mercado: é o <strong>salário mínimo profissional</strong> dos engenheiros previsto na <strong>Lei nº 4.950-A/1966</strong>, que fixa 6 salários mínimos para jornada de 6 horas e <strong>8,5 salários mínimos para jornada de 8 horas</strong> — piso legal fiscalizado pelo sistema CONFEA/CREA. Usar o piso legal, e não uma pesquisa salarial, torna a premissa verificável e conservadora — a remuneração praticada para o cargo costuma ficar acima do piso.</p>
 <p>- <strong>R$ 1.621,00</strong> é o <strong>salário mínimo nacional vigente em 2026</strong>, reajustado a partir de 1º de janeiro de 2026 (era R$ 1.518,00 em 2025). Se este documento for lido em ano posterior, é este o valor a atualizar.</p>
 </blockquote>
 <p>></p>
@@ -1643,7 +1699,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <h3 id="retorno-para-o-cliente-payback-e-roi-">Retorno para o cliente (payback e ROI)</h3>
 
-<p>O retorno depende de duas premissas que <strong>não são medidas, e sim arbitradas</strong>: o <strong>custo de implantação</strong> (não há venda realizada — não existe preço praticado) e o <strong>baseline de 40 min/dia</strong> (estimativa de experiência do autor). Fixar um número único para cada uma e anunciar "ROI de 208%" transformaria duas suposições em um resultado. Em vez disso, o quadro abaixo mostra <strong>como a conclusão se comporta quando as duas premissas variam</strong>.</p>
+<p>O retorno depende de duas premissas que <strong>não são medidas, e sim arbitradas</strong>: o <strong>custo de implantação</strong> (não há venda realizada — não existe preço praticado) e o <strong>baseline de 40 min/dia</strong> (premissa arbitrada, ver aba Diagnóstico e Objetivos). Fixar um número único para cada uma e anunciar "ROI de 208%" transformaria duas suposições em um resultado. Em vez disso, o quadro abaixo mostra <strong>como a conclusão se comporta quando as duas premissas variam</strong>.</p>
 
 <p><strong>ROI no 1º ano — sensibilidade cruzada</strong></p>
 
@@ -1689,12 +1745,12 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <p>Melhorias derivadas diretamente das métricas acima, ordenadas por impacto × esforço.</p>
 
-<h3 id="prioridade-0-corre-es-de-defeito-n-o-s-o">Prioridade 0 — Correções de defeito (não são melhorias)</h3>
+<h3 id="prioridade-0-lacunas-conhecidas-precedem">Prioridade 0 — Lacunas conhecidas (precedem qualquer otimização)</h3>
 
-<p>Itens abertos que corrigem comportamento incorreto já identificado, e por isso precedem qualquer otimização:</p>
+<p>Itens abertos que fecham lacunas já identificadas e documentadas neste portal. Não otimizam nada — apenas alinham o sistema ao que a documentação afirma sobre ele:</p>
 
 <ul>
-<li><strong>Guarda de frescor no nó Consolidação de Dados</strong>: hoje o pipeline pode apresentar um apontamento de semanas atrás como se fosse "ontem". Detalhamento do bug, do impacto e da correção proposta na aba <strong>Análise e Limitações</strong>.</li>
+<li><strong>Guarda de frescor no nó Consolidação de Dados</strong>: a seleção do "dia anterior" não impõe limite de idade ao registro, então um diário sem preenchimento recente produziria um relatório apresentando dado vencido como atual. Inócuo com a base de teste, relevante em produção — detalhamento e correção proposta na aba <strong>Análise e Limitações</strong>.</li>
 <li><strong>Parametrizar o nome do engenheiro no prompt</strong>: valor hoje fixo no workflow, o que bloqueia a replicação multi-obra prometida pelo desenho de <code>.env</code> (ver abas Arquitetura e n8n e Robustez e Escala).</li>
 <li><strong>Bateria comparativa de temperatura (0.2 / 0.3 / 0.7)</strong> sobre os três cenários de teste, para substituir a justificativa qualitativa do parâmetro por medição.</li>
 <li><strong>Refazer as capturas de tela da prova de conceito</strong> com o bot renomeado, dados coerentes e captura em desktop no modo claro.</li>
@@ -1781,7 +1837,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 </style>
 
 <h2 id="sintese-dos-resultados">Síntese dos Resultados</h2>
-<p class="dsh-intro">Síntese visual dos resultados do projeto — de <b>~40 minutos por dia</b> de compilação manual (baseline estimado a partir da experiência do autor em canteiro) para um relatório de obra gerado por IA local em <b>3,5 minutos</b> de mediana, sem custo de API ou licença. Os números abaixo conectam cada métrica ao objetivo: transformar dados dispersos (diário + clima) em orientação técnica acionável, entregue automaticamente todo dia útil.</p>
+<p class="dsh-intro">Síntese visual dos resultados do projeto — de <b>~40 minutos por dia</b> de compilação manual (baseline arbitrado, ver nota metodológica na aba Diagnóstico e Objetivos) para um relatório de obra gerado por IA local em <b>3,5 minutos</b> de mediana, sem custo de API ou licença. Os números abaixo conectam cada métrica ao objetivo: transformar dados dispersos (diário + clima) em orientação técnica acionável, entregue automaticamente todo dia útil.</p>
 
 <div class="dsh-kpis">
   <div class="dsh-kpi good"><div class="v">3,5 min</div><div class="l">Latência mediana ponta a ponta (P50, n = 9)</div></div>
@@ -1849,7 +1905,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
   <div class="dsh-card">
     <h4>Valor gerado (ROI do cliente)</h4>
     <p class="cap">Custo marginal ~zero (IA local): operar e replicar quase não custa</p>
-    <div class="dsh-roi-row"><span>Valor/ano por obra (40min × R$82 × 252d)</span><b>~R$ 13.860</b></div>
+    <div class="dsh-roi-row"><span>Valor/ano por obra (40min arbitrados × R$82 × 252d)</span><b>~R$ 13.860</b></div>
     <div class="dsh-roi-row"><span>Custo de implantação (premissa arbitrada)</span><b>R$ 4.500</b></div>
     <div class="dsh-roi-row"><span>Payback</span><span class="x">≈ 3,9 meses</span></div>
     <div class="dsh-roi-row"><span>ROI no 1º ano</span><span class="x">≈ 208%</span></div>
@@ -1870,13 +1926,13 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 
 <h2 id="a-hist-ria-dos-dados">A História dos Dados</h2>
 
-<p>Bons dados contam uma história com começo, meio e fim — e a do Assistente de Obra IA começa por um número simples: <strong>40 minutos por dia, todo dia útil, para cada obra.</strong></p>
+<p>Bons dados contam uma história com começo, meio e fim — e a do Assistente de Obra IA começa por um número simples, ainda que estimado: <strong>cerca de 40 minutos por dia, todo dia útil, para cada obra.</strong></p>
 
-<p><strong>O problema.</strong> A construção civil é <strong>um dos setores menos digitalizados</strong> do índice da McKinsey (2017) e, no Brasil, erguer um prédio residencial padrão leva em média <strong>mais do que o dobro</strong> do tempo que poderia levar (Deloitte/Fiesp, 2023). No dia a dia, isso se traduz numa tarefa concreta: o engenheiro residente gasta cerca de 40 minutos relendo o diário de obras e cruzando manualmente com a previsão do tempo — estimativa que vem da experiência do próprio autor em canteiro, não de estudo de terceiros. É um trabalho repetitivo que, pela correria, acaba negligenciado. O resultado é concretagem em dia de chuva, retrabalho e decisões "no escuro".</p>
+<p><strong>O problema.</strong> A construção civil é <strong>um dos setores menos digitalizados</strong> do índice da McKinsey (2017) e, no Brasil, erguer um prédio residencial padrão leva em média <strong>mais do que o dobro</strong> do tempo que poderia levar (Deloitte/Fiesp, 2023). No dia a dia, isso se traduz numa tarefa concreta: reler o diário de obras e cruzá-lo manualmente com a previsão do tempo antes de decidir se pode concretar, pintar ou impermeabilizar — decisões que as próprias normas técnicas condicionam ao clima previsto (NBR 14931:2023; ABRACO RP PAC-001). É um trabalho repetitivo que, pela correria do canteiro, acaba negligenciado, e cujo custo em tempo tem ordem de grandeza conhecida: o estudo FMI/PlanGrid (2018) apurou 5,5 h/semana por pessoa apenas procurando dados de projeto. O resultado é concretagem em dia de chuva, retrabalho e decisões "no escuro".</p>
 
-<p><strong>A solução e a prova.</strong> O pipeline automatiza esse cruzamento e entrega o relatório em texto e áudio — e os dados mostram que funciona. A latência mediana é de <strong>3,5 minutos</strong> ponta a ponta, cerca de <strong>11× mais rápido</strong> que os ~40 minutos manuais, medida em 9 execuções reais com 88,9% dentro do SLA de 5 minutos. Desse tempo, ~85% é a IA local (LLM + TTS): não é um defeito, e sim o preço de não depender de nuvem paga e manter os dados da obra dentro de casa. A confiabilidade modelada é de <strong>~97,9% por execução</strong> — o equivalente a ~247 de 252 relatórios entregues por ano (dias úteis), sendo que a falha de um dia é naturalmente coberta pelo relatório do dia seguinte. E o custo por relatório é de <strong>R$ 0</strong>, já que toda a IA roda localmente. Em resumo: o que custava 40 minutos do dia passou a custar 3,5 minutos e zero reais.</p>
+<p><strong>A solução e a prova.</strong> O pipeline automatiza esse cruzamento e entrega o relatório em texto e áudio — e os dados mostram que funciona. A latência mediana é de <strong>3,5 minutos</strong> ponta a ponta, cerca de <strong>11× mais rápido</strong> que os ~40 minutos manuais, medida em 9 execuções reais com 88,9% dentro do SLA de 5 minutos. Desse tempo, ~85% é a IA local (LLM + TTS): não é um defeito, e sim o preço de não depender de nuvem paga e manter os dados da obra dentro de casa. A confiabilidade modelada é de <strong>~97,9% por execução</strong> — o equivalente a ~247 de 252 relatórios entregues por ano (dias úteis), sendo que a falha de um dia é naturalmente coberta pelo relatório do dia seguinte. E o custo por relatório é de <strong>R$ 0</strong>, já que toda a IA roda localmente. Em resumo: o que se estima custar 40 minutos do dia passou a custar 3,5 minutos medidos e zero reais.</p>
 
-<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (40 min/dia × R$ 82/h × 252 dias úteis), com payback de ~3,9 meses e ROI de ~208% no primeiro ano — antes mesmo de contar o retrabalho evitado, e mantendo-se positivo em 8 das 9 combinações da análise de sensibilidade. E, como toda a IA roda localmente, o <strong>custo marginal de operação é próximo de zero</strong>: replicar a solução em uma nova obra praticamente não adiciona custo. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução de custo zero, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
+<p><strong>O valor e o futuro.</strong> Traduzindo para o negócio: para a construtora, o sistema gera cerca de <strong>R$ 13.860/ano de valor por obra</strong> só em tempo do engenheiro recuperado (baseline arbitrado de 40 min/dia × R$ 82/h × 252 dias úteis), com payback de ~3,9 meses e ROI de ~208% no primeiro ano — antes mesmo de contar o retrabalho evitado, e mantendo-se positivo em 8 das 9 combinações da análise de sensibilidade. E, como toda a IA roda localmente, o <strong>custo marginal de operação é próximo de zero</strong>: replicar a solução em uma nova obra praticamente não adiciona custo. À frente, o roadmap eleva a confiabilidade (host dedicado + watchdog) e corta a latência pela metade (LLM quantizado), abrindo caminho para escalar como produto (SaaS multi-tenant). É uma solução de custo zero, pronta para democratizar o planejamento inteligente em construtoras de pequeno e médio porte.</p>
 
 <hr>
 
@@ -2006,7 +2062,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
 <tr><td><strong>Justiça / não-discriminação</strong></td><td>Não há decisão sobre indivíduos</td><td>✅ Baixo risco; o output é sobre cronograma físico, não sobre pessoas</td></tr>
 <tr><td><strong>Responsabilização</strong></td><td>Necessário saber quem responde por erro</td><td>✅ Logs/auditoria; ⚠️ definir responsável formal (o engenheiro valida e assume a decisão final)</td></tr>
 <tr><td><strong>Privacidade desde a concepção</strong> (<em>privacy by design</em>)</td><td>IA local por decisão de arquitetura</td><td>✅ Inferência 100% local — privacidade é uma escolha estrutural, não um remendo</td></tr>
-<tr><td><strong>Confiabilidade</strong></td><td>Output pode variar; <strong>dado de entrada pode estar defasado</strong></td><td>✅ Parsing validado; ❌ <strong>falta guarda de frescor</strong> no dado do diário — defeito aberto e documentado (aba Análise e Limitações); ⚠️ monitorar qualidade ao longo do tempo</td></tr>
+<tr><td><strong>Confiabilidade</strong></td><td>Output pode variar; <strong>dado de entrada pode estar defasado</strong></td><td>✅ Parsing validado; ❌ <strong>falta guarda de frescor</strong> no dado do diário — lacuna aberta e documentada (aba Análise e Limitações); ⚠️ monitorar qualidade ao longo do tempo</td></tr>
 </table></div>
 
 <h3 id="o-risco-mais-importante-alucina-o-com-co">O risco mais importante: alucinação com consequência física</h3>
@@ -2063,7 +2119,7 @@ P(sucesso) ≈ 0,995 × 0,999 × 0,995 × 0,990 × 0,9995 ≈ 0,9787
     <div class="footer-inner">
         <div class="footer-brand">
             <div class="fb-name">Ygor Carvalho — Engenharia de IA</div>
-            <div class="fb-desc">Engenheiro civil com atuação como engenheiro residente, em transição para Engenharia de IA — o diagnóstico e o baseline deste projeto vêm de canteiro, não de pesquisa de escritório. Aqui: n8n orquestrando IA generativa local (Ollama), síntese de voz (Kokoro TTS) e distribuição multicanal, com validação, storytelling de dados e análise de conformidade.</div>
+            <div class="fb-desc">Engenheiro civil em transição para Engenharia de IA. Este projeto aplica automação e IA local a um problema de canteiro diagnosticado a partir de normas técnicas e exigências legais: n8n orquestrando IA generativa local (Ollama), síntese de voz (Kokoro TTS) e distribuição multicanal, com validação, storytelling de dados e análise de conformidade.</div>
             <div class="fb-stack">n8n · Ollama · Kokoro TTS · Telegram · Gmail SMTP · 2026</div>
         </div>
         <div class="footer-contact">

@@ -4,17 +4,25 @@ Pipeline de automação **on-premise** que gera relatórios executivos diários 
 
 **Portal do projeto:** <https://ygorsmc.github.io/daily-construction-report-ai/>
 
-> **Sobre o autor:** Ygor Carvalho, engenheiro civil com atuação como engenheiro residente, em transição para Engenharia de IA. O diagnóstico, o baseline de ~40 minutos/dia e as decisões de escopo deste projeto vêm da rotina real de preencher e consultar diário de obras em canteiro.
+> **Sobre o autor:** Ygor Carvalho, engenheiro civil, em transição para Engenharia de IA. O diagnóstico deste projeto foi construído a partir de normas técnicas, exigências legais e literatura setorial — as fontes estão citadas ao longo da documentação.
 
 ---
 
 ## O Problema Real
 
-O engenheiro responsável por uma obra precisa, diariamente, decidir **quando concretar**, **quando pintar ou impermeabilizar** e **que frentes de serviço priorizar**. Para isso ele releria o diário de obras dos últimos dias, consultaria a previsão do tempo e cruzaria as duas coisas mentalmente — um processo repetitivo, manual e, pela correria do canteiro, frequentemente negligenciado.
+Três decisões recorrentes de uma obra dependem, ao mesmo tempo, **do que já aconteceu no canteiro** e **do que o tempo vai fazer nos próximos dias**:
 
-Na minha experiência como engenheiro residente, essa compilação consome cerca de **40 minutos por dia**. Quando ela é pulada, as decisões saem sem dados atualizados: concretagem em dia de chuva, retrabalho, paralisação evitável.
+- **Quando concretar.** A ABNT NBR 14931:2023 condiciona a concretagem sob chuva: precipitação fraca (abaixo de 2,5 mm/h, Tabela 7) dispensa medidas extras, mas acima disso a água interfere na superfície do concreto e a norma exige proteção — sob risco de delaminação, perda de resistência e fissuração.
+- **Quando pintar ou impermeabilizar.** A recomendação prática ABRACO RP PAC-001 é explícita: não se aplica pintura sob chuva, neblina ou com umidade relativa acima de 85% — **nem quando houver expectativa de que esse valor seja atingido**. Ou seja, a regra não pede o clima de agora; pede a previsão.
+- **Que frente de serviço priorizar.** A alocação de equipes depende do estágio de cada frente (registrado no diário) cruzado com a janela de tempo seco disponível.
 
-Este pipeline faz esse cruzamento sozinho, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.
+O insumo dessas decisões existe e é formalizado: em obra pública, a **Lei nº 14.133/2021 (art. 117, § 1º)** determina que o fiscal do contrato anote "em registro próprio" todas as ocorrências da execução — o diário de obra. *(Ressalva de atualidade: a exigência do **Livro de Ordem** pelo sistema CONFEA/CREA foi **revogada em fevereiro de 2023**; o registro diário permanece por força contratual e, na obra pública, por força da Lei de Licitações.)*
+
+**O problema não é a ausência do dado — é que ele não é consultado na hora de decidir.** A literatura setorial descreve o diário como frequentemente preenchido de forma superficial ou irregular na correria do canteiro, perdendo valor como ferramenta de controle. E o custo de garimpar informação de projeto é mensurável: o estudo *Construction Disconnected* (FMI/PlanGrid, 2018), com cerca de 600 profissionais do setor, apurou **5,5 horas por semana por pessoa apenas procurando dados de projeto** — algo em torno de 66 minutos por dia útil.
+
+Este pipeline elimina esse garimpo para o caso específico do planejamento diário: cruza sozinho o diário de obras com a previsão do tempo, todo dia útil às 06:30, e entrega o resultado em texto e áudio antes do início da jornada.
+
+> **Sobre o baseline de ~40 minutos/dia** usado nos cálculos de ganho e ROI: é uma **premissa de trabalho arbitrada**, não uma medição — ver a nota metodológica na aba *Diagnóstico e Objetivos* do portal, e a análise de sensibilidade em *Métricas e ROI*, que recalcula o retorno para 20, 30 e 40 min/dia.
 
 ---
 
@@ -52,7 +60,7 @@ Entrega real do sistema nos dois canais de distribuição — **Telegram** (áud
 | Métrica | Valor | Origem |
 |---|---|---|
 | Latência mediana ponta a ponta (P50) | **3,5 min** | 9 execuções reais medidas |
-| Ganho sobre o processo manual | **≈ 11×** (−91%) | vs. ~40 min de compilação manual |
+| Ganho sobre o processo manual | **≈ 11×** (−91%) | vs. baseline arbitrado de ~40 min de compilação manual |
 | Aderência ao SLA (< 300 s) | **8 de 9 (88,9%)** | uma execução estourou o teto em 8 s |
 | Confiabilidade modelada por execução | **≈ 97,9%** | produto das disponibilidades das dependências |
 | Custo de IA por relatório | **R$ 0** | inferência 100% local, sem API paga |
